@@ -1,0 +1,337 @@
+{
+  "lastSyncedAt": "2026-11-14T15:17:26.998Z",
+  "successCount": 1,
+  "market": {
+    "lastUpdated": "2026-11-14T15:17:26.998Z",
+    "source": "Yahoo Finance Live Global Macro Feed",
+    "gold": {
+      "symbol": "GC=F",
+      "name": "Gold Spot / US Dollar",
+      "price": 3886.3,
+      "change24h": 1,
+      "changePercent24h": 0.03,
+      "high24h": 3927.2,
+      "low24h": 3871.1,
+      "sma20": 4035.205,
+      "sma50": 4151.51,
+      "devSma20Pct": -3.69,
+      "weightScore": 9.5,
+      "tier": "CORE_8_PLUS",
+      "unit": "USD / oz",
+      "correlation": 0.96,
+      "signal": "CONSOLIDATION",
+      "rationale": "Primary global gold benchmark (9.5/10 weight); rolling 20-DMA/50-DMA momentum leads MCX & Chennai rates"
+    },
+    "usd_inr": {
+      "symbol": "USD/INR",
+      "name": "USD to Indian Rupee",
+      "price": 94.24,
+      "change24h": 0.21,
+      "changePercent24h": 0.22,
+      "high24h": 94.24,
+      "low24h": 94.24,
+      "sma20": 94.584,
+      "sma50": 95.308,
+      "devSma20Pct": -0.36,
+      "weightScore": 8,
+      "tier": "CORE_8_PLUS",
+      "unit": "INR per USD",
+      "correlation": 0.88,
+      "impact": "Rupee depreciation increases the landed cost of imported bullion in India (8.0/10 core factor)",
+      "signal": "NEUTRAL"
+    },
+    "crude_oil": {
+      "symbol": "CL=F (WTI)",
+      "name": "Crude Oil WTI",
+      "price": 88.56,
+      "change24h": -0.18,
+      "changePercent24h": -0.2,
+      "high24h": 89.64,
+      "low24h": 87.8,
+      "weightScore": 5.5,
+      "tier": "SECONDARY",
+      "unit": "USD / bbl",
+      "correlation": 0.55,
+      "inflationImpact": "Secondary inflation context (5.5/10 — excluded from >= 8/10 core breakout & forecast weights)",
+      "signal": "NEUTRAL"
+    },
+    "usd_index": {
+      "symbol": "DX-Y.NYB",
+      "name": "U.S. Dollar Index (DXY)",
+      "price": 103.41,
+      "change24h": 0.24,
+      "changePercent24h": 0.23,
+      "high24h": 103.44,
+      "low24h": 103.06,
+      "sma20": 102.09,
+      "sma50": 101.44,
+      "devSma20Pct": 1.29,
+      "weightScore": 8,
+      "tier": "CORE_8_PLUS",
+      "unit": "Points",
+      "correlation": -0.83,
+      "fxImpact": "Dollar strength creates global FX resistance; softening USD vs 20-DMA expands gold purchasing power (8.0/10)",
+      "signal": "BEARISH_HEADWIND"
+    },
+    "treasury_yield": {
+      "symbol": "^TNX (10Y)",
+      "name": "US 10-Year Treasury Yield",
+      "price": 5.133,
+      "change24h": 0.03,
+      "changePercent24h": 0.59,
+      "realYield": 2.79,
+      "breakevenInflation": 2.34,
+      "sma20": 4.993,
+      "sma50": 5.066,
+      "devSma20Pct": 2.8,
+      "weightScore": 8.5,
+      "tier": "CORE_8_PLUS",
+      "unit": "%",
+      "correlation": -0.79,
+      "opportunityCostImpact": "Primary sovereign opportunity cost driver (8.5/10); falling yields vs 20-DMA fuel gold rallies",
+      "signal": "HEADWIND"
+    },
+    "vix": {
+      "symbol": "^VIX",
+      "name": "CBOE Volatility Index",
+      "price": 19.58,
+      "change24h": 0.88,
+      "changePercent24h": 4.71,
+      "high24h": 20.92,
+      "low24h": 17.64,
+      "weightScore": 4.5,
+      "tier": "SECONDARY",
+      "unit": "Index Points",
+      "correlation": 0.45,
+      "safeHavenImpact": "Secondary safe-haven sentiment monitor (4.5/10 — excluded from >= 8/10 core predictive model)",
+      "signal": "CALM"
+    }
+  },
+  "historical": [
+    {
+      "date": "2026-10-12",
+      "gold": 0,
+      "goldInr": 0,
+      "oil": 0,
+      "usd": 0,
+      "yields": 0,
+      "vix": 0
+    },
+    {
+      "date": "2026-10-13",
+      "gold": -0.32,
+      "goldInr": -0.83,
+      "oil": 0.43,
+      "usd": -0.39,
+      "yields": -0.44,
+      "vix": 0.39
+    },
+    {
+      "date": "2026-10-14",
+      "gold": -1.97,
+      "goldInr": -2.61,
+      "oil": 1.44,
+      "usd": -0.03,
+      "yields": -0.95,
+      "vix": 10.91
+    },
+    {
+      "date": "2026-10-15",
+      "gold": -0.49,
+      "goldInr": -1.79,
+      "oil": 4.51,
+      "usd": -0.57,
+      "yields": -2.88,
+      "vix": 8.22
+    },
+    {
+      "date": "2026-10-16",
+      "gold": -0.23,
+      "goldInr": -1.53,
+      "oil": 8.18,
+      "usd": -0.72,
+      "yields": -2.71,
+      "vix": 31.43
+    },
+    {
+      "date": "2026-10-18",
+      "gold": -0.23,
+      "goldInr": -1.06,
+      "oil": 8.18,
+      "usd": -0.72,
+      "yields": -2.71,
+      "vix": 31.43
+    },
+    {
+      "date": "2026-10-19",
+      "gold": -0.73,
+      "goldInr": -1.54,
+      "oil": 10.58,
+      "usd": -0.58,
+      "yields": -1.98,
+      "vix": 21.24
+    },
+    {
+      "date": "2026-10-20",
+      "gold": -1.15,
+      "goldInr": -2.24,
+      "oil": 8.59,
+      "usd": -0.83,
+      "yields": -2.35,
+      "vix": 13.81
+    },
+    {
+      "date": "2026-10-21",
+      "gold": -0.97,
+      "goldInr": -2.48,
+      "oil": 3.64,
+      "usd": -0.78,
+      "yields": -1.79,
+      "vix": 9.66
+    },
+    {
+      "date": "2026-10-22",
+      "gold": -3.11,
+      "goldInr": -4.18,
+      "oil": 6.11,
+      "usd": -0.95,
+      "yields": -5.48,
+      "vix": 25.12
+    },
+    {
+      "date": "2026-10-23",
+      "gold": -4.36,
+      "goldInr": -5.42,
+      "oil": 10.17,
+      "usd": -0.75,
+      "yields": -4.81,
+      "vix": 27.88
+    },
+    {
+      "date": "2026-10-26",
+      "gold": -3.63,
+      "goldInr": -4.48,
+      "oil": 8.56,
+      "usd": -0.6,
+      "yields": -4.85,
+      "vix": 20.91
+    },
+    {
+      "date": "2026-10-27",
+      "gold": -2.77,
+      "goldInr": -3.37,
+      "oil": 6.57,
+      "usd": -0.25,
+      "yields": -4.71,
+      "vix": 15.19
+    },
+    {
+      "date": "2026-10-28",
+      "gold": -3.32,
+      "goldInr": -3.92,
+      "oil": 9.64,
+      "usd": -0.38,
+      "yields": -3.72,
+      "vix": 11.18
+    },
+    {
+      "date": "2026-10-29",
+      "gold": -3.8,
+      "goldInr": -4.37,
+      "oil": 8.81,
+      "usd": -0.53,
+      "yields": -4.79,
+      "vix": 13.08
+    },
+    {
+      "date": "2026-10-30",
+      "gold": -6.96,
+      "goldInr": -7.57,
+      "oil": 11.07,
+      "usd": -0.68,
+      "yields": -5.94,
+      "vix": 27.68
+    },
+    {
+      "date": "2026-11-02",
+      "gold": -5.27,
+      "goldInr": -6.14,
+      "oil": 2.9,
+      "usd": -0.81,
+      "yields": -6.6,
+      "vix": 39.05
+    },
+    {
+      "date": "2026-11-03",
+      "gold": -5.97,
+      "goldInr": -7,
+      "oil": 2.51,
+      "usd": -0.69,
+      "yields": -5.5,
+      "vix": 36.95
+    },
+    {
+      "date": "2026-11-04",
+      "gold": -2.81,
+      "goldInr": -3.85,
+      "oil": -6,
+      "usd": -1.04,
+      "yields": -6.6,
+      "vix": 9.2
+    },
+    {
+      "date": "2026-11-05",
+      "gold": -1.84,
+      "goldInr": -3.13,
+      "oil": -3.44,
+      "usd": -1,
+      "yields": -7.69,
+      "vix": 85.27
+    },
+    {
+      "date": "2026-11-06",
+      "gold": -2.76,
+      "goldInr": -4.1,
+      "oil": -3.1,
+      "usd": -0.27,
+      "yields": -7.27,
+      "vix": 68.57
+    },
+    {
+      "date": "2026-11-09",
+      "gold": -1.82,
+      "goldInr": -3.74,
+      "oil": -7.35,
+      "usd": -0.91,
+      "yields": -7.18,
+      "vix": 30.97
+    },
+    {
+      "date": "2026-11-10",
+      "gold": -3.83,
+      "goldInr": -5.66,
+      "oil": -8.21,
+      "usd": -0.34,
+      "yields": -4.9,
+      "vix": 27.94
+    },
+    {
+      "date": "2026-11-11",
+      "gold": -4.54,
+      "goldInr": -6.38,
+      "oil": -7.69,
+      "usd": 0.32,
+      "yields": -4.62,
+      "vix": 14.99
+    },
+    {
+      "date": "2026-11-12",
+      "gold": -4.91,
+      "goldInr": -6.99,
+      "oil": -8.94,
+      "usd": 0.42,
+      "yields": -4.62,
+      "vix": 14.99
+    }
+  ]
+}

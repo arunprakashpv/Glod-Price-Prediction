@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURUM MATRIX // Indian Gold & Global Macro Breakout Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Chart.js for analytical charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css?v=2.7">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- TOP NAV / STATUS BAR -->
+    <header class="top-nav">
+      <div class="brand-group">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2" fill="#eab308" stroke="#ca8a04"/>
+            <polyline points="2 17 12 22 22 17" stroke="#eab308"/>
+            <polyline points="2 12 12 17 22 12" stroke="#fef08a"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">AURUM MATRIX <span class="tag-version">INDIA &bull; PRO LIVE</span></div>
+          <div class="brand-subtitle">Retail Gold Price Predictor & Macro Breakout Intelligence</div>
+        </div>
+      </div>
+
+      <!-- Currency / Focus Switcher -->
+      <div class="view-switchers">
+        <div class="mode-toggle-group">
+          <button class="mode-btn active" id="btn-mode-india">🇮🇳 Indian Retail (₹ INR)</button>
+          <button class="mode-btn" id="btn-mode-global">🌐 Global Macro ($ USD)</button>
+        </div>
+      </div>
+
+      <!-- Live Clocks & Sessions -->
+      <div class="market-sessions">
+        <div class="session-pill active" id="session-mcx">
+          <span class="session-dot"></span> MCX India
+        </div>
+        <div class="session-pill active" id="session-london">
+          <span class="session-dot"></span> London
+        </div>
+        <div class="session-pill active" id="session-ny">
+          <span class="session-dot"></span> New York
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Neon Tech Stack Status Pill -->
+        <div id="neon-stack-pill" class="session-pill" style="background: rgba(0, 230, 153, 0.12); border: 1px solid rgba(0, 230, 153, 0.4); color: #00e699; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 5px;" title="Powered by Neon Lakebase Postgres, Auth, AI Gateway, Functions & Realtime">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #00e699; box-shadow: 0 0 8px #00e699;"></span>
+          <span id="neon-status-text">Neon Tech Stack</span>
+        </div>
+        <!-- Light / Dark Mode Toggle -->
+        <button id="btn-theme-toggle" class="btn-theme-toggle" title="Switch between Light and Dark mode">
+          <span id="theme-icon">☀️</span> <span id="theme-label">Light Mode</span>
+        </button>
+        <!-- Top 3 Bullion Associations Jump Button -->
+        <button id="btn-header-orgs" class="btn-header-key" title="Jump to Top 3 Indian Bullion Associations Desk">
+          <span class="key-icon">🏛️</span> <span>Top 3 Orgs</span>
+        </button>
+        <!-- 3-Hour Bullion Forecast Desk Jump Button -->
+        <button id="btn-header-forecast" class="btn-header-key" title="Jump to 3-Hour Autonomous Bullion Forecast Desk">
+          <span class="key-icon">⏱️</span> <span id="header-forecast-label">3h Auto-Forecast</span>
+        </button>
+        <!-- 20-Year Backtest Lab Jump Button -->
+        <button id="btn-header-backtest" class="btn-header-key" title="Jump to 20-Year Historical Backtest Lab">
+          <span class="key-icon">🧪</span> <span>20y Backtest</span>
+        </button>
+        <div class="live-clock" id="live-clock">--:--:-- IST</div>
+        <button id="btn-audio-toggle" class="btn-icon" title="Toggle Breakout Alert Sound">
+          <span id="sound-icon">🔔</span>
+        </button>
+        <button id="btn-refresh" class="btn-primary-ghost">
+          <span class="spin-icon">⟳</span> Refresh
+        </button>
+      </div>
+    </header>
+
+    <!-- PERFECT STORM BANNER (TRIGGERED ON 80+ SCORE) -->
+    <div id="storm-alert-banner" class="storm-banner hidden">
+      <div class="storm-content">
+        <div class="storm-badge-icon">⚡</div>
+        <div>
+          <div class="storm-title">MACRO BREAKOUT WAVE ACTIVE: HIGH MOMENTUM IN GOLD</div>
+          <div class="storm-sub">All 4 global catalysts aligned. International gold surging; retail prices in India elevated. Review the Retail Buyer Timing Guide below before purchasing jewellery or coins.</div>
+        </div>
+      </div>
+      <button class="btn-dismiss-alert" id="dismiss-storm-btn">Dismiss</button>
+    </div>
+
+    <!-- MAIN GRID LAYOUT -->
+    <main class="dashboard-grid">
+
+      <!-- ============================================ -->
+      <!-- SECTION 1: INDIAN RETAIL GOLD BUYER HERO -->
+      <!-- ============================================ -->
+      <section class="card india-retail-card" id="section-india-retail">
+        <div class="card-header">
+          <div>
+            <div class="india-badge-row">
+              <span class="badge-flag">🇮🇳 DOMESTIC RETAIL MARKET</span>
+              <span class="badge-duty">Landed Duty: 6% | GST: 3%</span>
+              <span class="badge-source">MCX / Bullion Benchmark</span>
+            </div>
+            <h2 class="section-heading mt-2">Indian Retail Gold Buying Desk (Coins & Jewellery)</h2>
+            <p class="section-sub">Real-time domestic prices calibrated for retail jewellery shoppers and bullion coin investors</p>
+          </div>
+          <!-- Live Buyer Timing Action Badge -->
+          <div class="retail-action-badge" id="retail-action-badge">
+            <span class="action-dot"></span>
+            <span id="retail-action-text">ACCUMULATE TRANCHES // DIP WATCH</span>
+          </div>
+        </div>
+
+        <!-- Jeweller Live Benchmark & Custom Rate Bar -->
+        <div class="jeweller-benchmark-bar">
+          <div class="benchmark-left">
+            <span class="benchmark-label">Active Benchmark:</span>
+            <button class="benchmark-pill active" id="btn-bench-grt" data-rate="13150" title="Live Showroom Selling Rate from grtjewels.com">
+              <span class="pill-dot"></span> <span id="label-grt-btn-text">GRT Store Board (₹<span id="label-grt-rate">13,150</span> / g)</span>
+            </button>
+            <button class="benchmark-pill" id="btn-bench-mjdta" data-rate="13140" title="Chennai Trade Association Benchmark from thejewellersassociation.org">
+              MJDTA Chennai Benchmark (₹<span id="label-mjdta-rate">13,140</span> / g)
+            </button>
+            <button class="benchmark-pill" id="btn-bench-national" data-rate="13305" title="National Benchmark from ibjarates.com">
+              IBJA National (₹<span id="label-ibja-rate">13,305</span> / g)
+            </button>
+            <button class="btn-quick-edit-grt" id="btn-quick-edit-grt" title="Click to manually edit benchmark rate">
+              ✏️ Change Rate
+            </button>
+          </div>
+          <div class="benchmark-right">
+            <span class="custom-rate-label">Active 22K Rate:</span>
+            <div class="custom-rate-input-box" id="rate-input-box-wrapper">
+              <span class="rupee-pre">₹</span>
+              <input type="number" id="input-custom-gold-rate" value="13150" step="5" class="custom-rate-field" placeholder="13150" title="Enter today's exact 22K per gram rate">
+              <span class="rate-suf">/ g</span>
+              <button id="btn-apply-custom-rate" class="btn-apply-rate">⚡ Update & Save Rate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live GRT vs MJDTA Comparison Strip -->
+        <div class="grt-mjdta-spread-strip" id="grt-mjdta-spread-strip">
+          <div class="strip-left">
+            <span class="strip-badge">⚡ CHENNAI SPREAD ANALYSIS</span>
+            <span class="strip-text">
+              <strong>GRT Showroom Board:</strong> <span class="gold" id="strip-grt-rate">₹13,150 / g</span> (₹1,05,200 / Sovereign)
+              vs
+              <strong>MJDTA Association:</strong> <span class="gold" id="strip-mjdta-rate">₹13,140 / g</span> (₹1,05,120 / Sovereign)
+            </span>
+          </div>
+          <div class="strip-right">
+            <span class="strip-diff-pill" id="strip-diff-pill">+₹10 / g (+₹80 / Sovereign)</span>
+            <span class="strip-hint">GRT showroom board prices gold with a ₹10/g retail buffer over MJDTA wholesale fixing</span>
+          </div>
+        </div>
+
+        <!-- 4 Indian Purity Cards -->
+        <div class="india-prices-grid">
+          <!-- 24K PURE GOLD -->
+          <div class="purity-card featured-24k">
+            <div class="purity-card-header">
+              <div>
+                <span class="purity-title">24K Pure Gold (999)</span>
+                <span class="purity-sub">Investment Coins, Minted Bars & Digital Gold</span>
+              </div>
+              <span class="purity-tag gold-tag">99.9% PURE</span>
+            </div>
+            <div class="purity-main-price">
+              <span class="currency-symbol">₹</span><span id="inr-24k-10g">1,43,350</span>
+              <span class="price-unit">/ 10 grams</span>
+            </div>
+            <div class="purity-sub-prices">
+              <div class="sub-price-item">
+                <span class="sub-label">Per 1 Gram:</span>
+                <strong class="sub-val" id="inr-24k-1g">₹14,335</strong>
+              </div>
+              <div class="sub-price-item">
+                <span class="sub-label">GST 3% Included:</span>
+                <strong class="sub-val positive">Yes</strong>
+              </div>
+            </div>
+            <div class="purity-footer">
+              Best for: Wealth preservation & zero-wastage accumulation
+            </div>
+          </div>
+
+          <!-- 22K HALLMARK JEWELLERY -->
+          <div class="purity-card featured-22k">
+            <div class="purity-card-header">
+              <div>
+                <span class="purity-title">22K Hallmark Gold (916)</span>
+                <span class="purity-sub" id="inr-22k-card-sub">Standard Jewellery (GRT Rate: ₹13,140/g)</span>
+              </div>
+              <span class="purity-tag hallmark-tag">91.6% BIS HALLMARK</span>
+            </div>
+            <div class="purity-main-price">
+              <span class="currency-symbol">₹</span><span id="inr-22k-10g">1,31,400</span>
+              <span class="price-unit">/ 10 grams</span>
+            </div>
+            <div class="purity-sub-prices">
+              <div class="sub-price-item">
+                <span class="sub-label">Per 1 Gram:</span>
+                <strong class="sub-val gold" id="inr-22k-1g">₹13,140</strong>
+              </div>
+              <div class="sub-price-item highlight-sovereign">
+                <span class="sub-label">1 Sovereign (8g / Pavan):</span>
+                <strong class="sub-val gold" id="inr-22k-8g">₹1,05,120</strong>
+              </div>
+            </div>
+            <div class="purity-footer">
+              Exact GRT Jewellers base rate before making charges
+            </div>
+          </div>
+
+          <!-- 18K MODERN / DIAMOND JEWELLERY -->
+          <div class="purity-card">
+            <div class="purity-card-header">
+              <div>
+                <span class="purity-title">18K Gold (750)</span>
+                <span class="purity-sub">Diamond Jewellery & Contemporary Rings</span>
+              </div>
+              <span class="purity-tag neutral-tag">75.0% PURITY</span>
+            </div>
+            <div class="purity-main-price">
+              <span class="currency-symbol">₹</span><span id="inr-18k-10g">1,07,510</span>
+              <span class="price-unit">/ 10 grams</span>
+            </div>
+            <div class="purity-sub-prices">
+              <div class="sub-price-item">
+                <span class="sub-label">Per 1 Gram:</span>
+                <strong class="sub-val" id="inr-18k-1g">₹10,951</strong>
+              </div>
+              <div class="sub-price-item">
+                <span class="sub-label">Studded Base:</span>
+                <strong class="sub-val">Ideal for Diamonds</strong>
+              </div>
+            </div>
+            <div class="purity-footer">
+              Stronger alloy for stone and solitaire settings
+            </div>
+          </div>
+
+          <!-- USD/INR EXCHANGE RATE -->
+          <div class="purity-card inr-fx-card">
+            <div class="purity-card-header">
+              <div>
+                <span class="purity-title">USD / INR Exchange Rate</span>
+                <span class="purity-sub">Currency Driver for Indian Bullion</span>
+              </div>
+              <span class="purity-tag fx-tag">CURRENCY VECTOR</span>
+            </div>
+            <div class="purity-main-price">
+              <span class="currency-symbol">₹</span><span id="inr-usd-rate">84.22</span>
+              <span class="price-unit">per USD</span>
+            </div>
+            <div class="purity-sub-prices">
+              <div class="sub-price-item">
+                <span class="sub-label">24h FX Trend:</span>
+                <strong class="sub-val" id="inr-usd-change">+0.08 (+0.10%)</strong>
+              </div>
+              <div class="sub-price-item">
+                <span class="sub-label">Rupee Weakness:</span>
+                <strong class="sub-val negative">Increases Gold Price</strong>
+              </div>
+            </div>
+            <div class="purity-footer">
+              India imports ~90% of bullion; weak INR inflates domestic rates
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Retail Buyer Guidance Bar -->
+        <div class="retail-guidance-bar">
+          <div class="guidance-icon-col">
+            <span class="guidance-icon">💡</span>
+          </div>
+          <div class="guidance-content">
+            <div class="guidance-title">Analyst Advice for Retail Jewellery & Coin Buyers:</div>
+            <div class="guidance-text" id="retail-advice-text">
+              Bullish macro tailwinds are forming. Good window to accumulate 24K coins or bullion bars. For jewellery, lock in 22K rates with advance booking if your jeweller offers rate-fix schemes.
+            </div>
+          </div>
+          <div class="guidance-actions">
+            <button class="btn-guidance-jump" id="btn-jump-calc">Open Jewellery Calculator</button>
+            <button class="btn-guidance-jump primary" id="btn-jump-ai">Ask AI Forecast</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 1.5: INDIAN BULLION ASSOCIATIONS & GRT LIVE DESK -->
+      <!-- ============================================ -->
+      <section class="card top3-orgs-card" id="section-top3-orgs">
+        <div class="card-header">
+          <div>
+            <div class="orgs-badge-row">
+              <span class="badge-flag">🏛️ INDIAN BULLION ASSOCIATIONS & GRT LIVE DESK</span>
+              <span class="badge-duty">Official Regulatory & Retail Showroom Boards</span>
+              <span class="badge-source" id="top3-last-sync-badge">Auto-Synced</span>
+            </div>
+            <h2 class="section-heading mt-2">GRT Jewellers vs Bullion Associations Benchmark Desk</h2>
+            <p class="section-sub">Direct comparison between GRT Jewellers live store board and the 3 official bullion associations (MJDTA, IBJA, JAB). Automatically synced every 15 minutes or on demand.</p>
+          </div>
+          <div class="orgs-header-actions">
+            <button class="btn-sync-top3" id="btn-sync-top3" title="Fetch latest live rates directly from GRT, MJDTA, IBJA & JAB official portals">
+              <span class="sync-icon" id="sync-top3-icon">⚡</span> <span id="sync-top3-text">Sync Live Rates</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- GRT vs MJDTA Direct Comparison Box -->
+        <div class="grt-mjdta-comparison-card" id="grt-mjdta-comparison-card">
+          <div class="comp-header">
+            <span class="comp-badge">🔍 CHENNAI MARKET SPREAD COMPARISON</span>
+            <h3 class="comp-title">GRT Jewellers Showroom Board vs MJDTA Association Wholesale Fixing</h3>
+          </div>
+          <div class="comp-grid">
+            <div class="comp-col grt-col">
+              <span class="comp-col-label">GRT Jewellers (Live Store Board)</span>
+              <div class="comp-rate-val gold" id="comp-grt-22k">₹13,150 <span class="comp-sub">/ g</span></div>
+              <div class="comp-sov" id="comp-grt-sov">₹1,05,200 (8g Sovereign)</div>
+              <div class="comp-extra-rates">
+                <span>24K (10g): <strong id="comp-grt-24k">₹1,43,560</strong></span>
+                <span>Silver: <strong id="comp-grt-silver">₹205.00/g</strong></span>
+              </div>
+              <a href="https://www.grtjewels.com" target="_blank" rel="noopener noreferrer" class="comp-link">grtjewels.com ↗</a>
+            </div>
+            <div class="comp-vs-col">
+              <span class="vs-circle">VS</span>
+              <div class="comp-diff-tag positive" id="comp-diff-tag">+₹10 / g</div>
+              <span class="comp-diff-sub" id="comp-diff-sub">+₹80 / Sovereign</span>
+              <button class="btn-apply-toggle-rate" id="btn-toggle-grt-mjdta" title="Click to quickly toggle between GRT and MJDTA as terminal benchmark">
+                🔄 Switch Active
+              </button>
+            </div>
+            <div class="comp-col mjdta-col">
+              <span class="comp-col-label">MJDTA (Madras Jewellers Assoc.)</span>
+              <div class="comp-rate-val gold" id="comp-mjdta-22k">₹13,140 <span class="comp-sub">/ g</span></div>
+              <div class="comp-sov" id="comp-mjdta-sov">₹1,05,120 (8g Sovereign)</div>
+              <div class="comp-extra-rates">
+                <span>24K (10g): <strong id="comp-mjdta-24k">₹1,43,350</strong></span>
+                <span>Silver: <strong id="comp-mjdta-silver">₹205.00/g</strong></span>
+              </div>
+              <a href="https://www.thejewellersassociation.org" target="_blank" rel="noopener noreferrer" class="comp-link">thejewellersassociation.org ↗</a>
+            </div>
+          </div>
+          <div class="comp-footer-explanation">
+            <span class="comp-icon">💡</span>
+            <span id="comp-explanation-text"><strong>Why is there a ₹10/g difference?</strong> MJDTA sets the daily morning wholesale trade baseline for Tamil Nadu jewel merchants. Retail flagship chains like <strong>GRT Jewellers</strong> price their consumer showroom board with a modest retail buffer (+₹10/g or +₹80 per Sovereign) to cover retail store infrastructure, insured branch transit, and billing services. You can switch between either rate with 1 click.</span>
+          </div>
+        </div>
+
+        <!-- 4 Organisations Grid -->
+        <div class="top3-grid top4-grid" id="top3-organisations-grid">
+          <!-- Card 1: GRT Jewellers (Direct Store Rate) -->
+          <div class="org-card active-benchmark" id="card-org-grt">
+            <div class="org-card-top">
+              <div class="org-header-left">
+                <span class="org-badge grt-badge">GRT SHOWROOM // CHENNAI</span>
+                <span class="org-active-pill" id="badge-active-grt">⭐ ACTIVE BENCHMARK</span>
+              </div>
+              <a href="https://www.grtjewels.com" target="_blank" rel="noopener noreferrer" class="org-site-link" title="Visit official GRT portal">
+                grtjewels.com ↗
+              </a>
+            </div>
+            <div class="org-title-row">
+              <h3 class="org-name">GRT Jewellers (G.R. Thanga Maligai)</h3>
+              <span class="org-acronym">GRT</span>
+            </div>
+            <p class="org-desc">Direct consumer showroom board rate from grtjewels.com across Tamil Nadu.</p>
+
+            <div class="org-prices-box">
+              <div class="org-price-row main">
+                <span class="org-rate-label">22K Gold (1 Gram):</span>
+                <span class="org-rate-val gold" id="org-grt-22k-1g">₹13,150</span>
+              </div>
+              <div class="org-price-row sovereign">
+                <span class="org-rate-label">1 Sovereign (8g / Pavan):</span>
+                <span class="org-rate-val gold" id="org-grt-22k-8g">₹1,05,200</span>
+              </div>
+              <div class="org-price-subgrid">
+                <div class="org-sub-item">
+                  <span class="sub-label">24K Pure (10g):</span>
+                  <strong class="sub-val" id="org-grt-24k-10g">₹1,43,560</strong>
+                </div>
+                <div class="org-sub-item">
+                  <span class="sub-label">Silver (1g):</span>
+                  <strong class="sub-val" id="org-grt-silver-1g">₹205.00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="org-spread-row">
+              <span class="spread-label">Spread vs MJDTA:</span>
+              <span class="org-spread-badge positive" id="spread-org-grt">+₹10 / g (+₹80 / Sov)</span>
+            </div>
+
+            <div class="org-card-footer">
+              <span class="org-time" id="time-org-grt">Synced: Live Store Board</span>
+              <button class="btn-select-bench active" data-org-id="grt" id="btn-select-grt">✓ Active Benchmark</button>
+            </div>
+          </div>
+
+          <!-- Card 2: MJDTA (Chennai / Tamil Nadu) -->
+          <div class="org-card" id="card-org-mjdta">
+            <div class="org-card-top">
+              <div class="org-header-left">
+                <span class="org-badge chennai">CHENNAI // TRADE BENCHMARK</span>
+                <span class="org-active-pill hidden" id="badge-active-mjdta">⭐ ACTIVE BENCHMARK</span>
+              </div>
+              <a href="https://www.thejewellersassociation.org" target="_blank" rel="noopener noreferrer" class="org-site-link" title="Visit official portal">
+                thejewellersassociation.org ↗
+              </a>
+            </div>
+            <div class="org-title-row">
+              <h3 class="org-name">Madras Jewellers & Diamond Traders’ Association</h3>
+              <span class="org-acronym">MJDTA</span>
+            </div>
+            <p class="org-desc">Daily morning wholesale fixing for Lalitha, NAC, Prince, Joyalukkas.</p>
+
+            <div class="org-prices-box">
+              <div class="org-price-row main">
+                <span class="org-rate-label">22K Gold (1 Gram):</span>
+                <span class="org-rate-val gold" id="org-mjdta-22k-1g">₹13,140</span>
+              </div>
+              <div class="org-price-row sovereign">
+                <span class="org-rate-label">1 Sovereign (8g / Pavan):</span>
+                <span class="org-rate-val gold" id="org-mjdta-22k-8g">₹1,05,120</span>
+              </div>
+              <div class="org-price-subgrid">
+                <div class="org-sub-item">
+                  <span class="sub-label">24K Pure (10g):</span>
+                  <strong class="sub-val" id="org-mjdta-24k-10g">₹1,43,350</strong>
+                </div>
+                <div class="org-sub-item">
+                  <span class="sub-label">Silver (1g):</span>
+                  <strong class="sub-val" id="org-mjdta-silver-1g">₹205.00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="org-spread-row">
+              <span class="spread-label">Spread vs Active:</span>
+              <span class="org-spread-badge neutral" id="spread-org-mjdta">BASE BENCHMARK (0)</span>
+            </div>
+
+            <div class="org-card-footer">
+              <span class="org-time" id="time-org-mjdta">Synced: 06/11/2026 10:32 am</span>
+              <button class="btn-select-bench" data-org-id="mjdta" id="btn-select-mjdta">Use as Benchmark</button>
+            </div>
+          </div>
+
+          <!-- Card 3: IBJA (National / Mumbai) -->
+          <div class="org-card" id="card-org-ibja">
+            <div class="org-card-top">
+              <div class="org-header-left">
+                <span class="org-badge national">NATIONAL APEX // MUMBAI</span>
+                <span class="org-active-pill hidden" id="badge-active-ibja">⭐ ACTIVE BENCHMARK</span>
+              </div>
+              <a href="https://ibjarates.com" target="_blank" rel="noopener noreferrer" class="org-site-link" title="Visit official portal">
+                ibjarates.com ↗
+              </a>
+            </div>
+            <div class="org-title-row">
+              <h3 class="org-name">India Bullion and Jewellers Association</h3>
+              <span class="org-acronym">IBJA</span>
+            </div>
+            <p class="org-desc">Apex authority for RBI Sovereign Gold Bonds (SGB), National Wholesale Bullion & Mint.</p>
+
+            <div class="org-prices-box">
+              <div class="org-price-row main">
+                <span class="org-rate-label">22K Base (1g Official):</span>
+                <span class="org-rate-val gold" id="org-ibja-22k-1g">₹12,613</span>
+              </div>
+              <div class="org-price-row sovereign">
+                <span class="org-rate-label">Published 10g Base:</span>
+                <span class="org-rate-val gold" id="org-ibja-22k-10g">₹1,26,126</span>
+              </div>
+              <div class="org-price-row sovereign" style="font-size:0.82rem; color:#94a3b8;">
+                <span class="org-rate-label" style="color:#94a3b8;">Retail + 3% GST (1g):</span>
+                <strong style="color:#38bdf8;" id="org-ibja-22k-gst">₹12,991</strong>
+                <span style="font-size:0.75rem; margin-left:auto; color:#64748b;" id="org-ibja-22k-8g">(Sov: ₹1,00,901)</span>
+              </div>
+              <div class="org-price-subgrid">
+                <div class="org-sub-item">
+                  <span class="sub-label">24K Pure (10g):</span>
+                  <strong class="sub-val" id="org-ibja-24k-10g">₹1,37,692</strong>
+                </div>
+                <div class="org-sub-item">
+                  <span class="sub-label">Silver (1g):</span>
+                  <strong class="sub-val" id="org-ibja-silver-1g">₹181.04</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="org-spread-row">
+              <span class="spread-label">Spread vs Active:</span>
+              <span class="org-spread-badge positive" id="spread-org-ibja">+₹155 / g (+₹1,240 / Sov)</span>
+            </div>
+
+            <div class="org-card-footer">
+              <span class="org-time" id="time-org-ibja">Synced: 06/11/2026 12:00 pm</span>
+              <button class="btn-select-bench" data-org-id="ibja" id="btn-select-ibja">Use as Benchmark</button>
+            </div>
+          </div>
+
+          <!-- Card 4: JAB (Bengaluru / Karnataka) -->
+          <div class="org-card" id="card-org-jab">
+            <div class="org-card-top">
+              <div class="org-header-left">
+                <span class="org-badge karnataka">BENGALURU // KARNATAKA</span>
+                <span class="org-active-pill hidden" id="badge-active-jab">⭐ ACTIVE BENCHMARK</span>
+              </div>
+              <a href="https://jab.org.in" target="_blank" rel="noopener noreferrer" class="org-site-link" title="Visit official portal">
+                jab.org.in ↗
+              </a>
+            </div>
+            <div class="org-title-row">
+              <h3 class="org-name">The Jewellers’ Association Bengaluru</h3>
+              <span class="org-acronym">JAB</span>
+            </div>
+            <p class="org-desc">Daily board rate for C. Krishniah Chetty, Bhima, Abaran, Malabar Gold Bengaluru.</p>
+
+            <div class="org-prices-box">
+              <div class="org-price-row main">
+                <span class="org-rate-label">22K Gold (1 Gram):</span>
+                <span class="org-rate-val gold" id="org-jab-22k-1g">₹13,545</span>
+              </div>
+              <div class="org-price-row sovereign">
+                <span class="org-rate-label">1 Sovereign (8g / Pavan):</span>
+                <span class="org-rate-val gold" id="org-jab-22k-8g">₹1,08,360</span>
+              </div>
+              <div class="org-price-subgrid">
+                <div class="org-sub-item">
+                  <span class="sub-label">24K Pure (10g):</span>
+                  <strong class="sub-val" id="org-jab-24k-10g">₹1,47,750</strong>
+                </div>
+                <div class="org-sub-item">
+                  <span class="sub-label">Silver (1g):</span>
+                  <strong class="sub-val" id="org-jab-silver-1g">₹206.00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="org-spread-row">
+              <span class="spread-label">Spread vs Active:</span>
+              <span class="org-spread-badge positive" id="spread-org-jab">+₹395 / g (+₹3,160 / Sov)</span>
+            </div>
+
+            <div class="org-card-footer">
+              <span class="org-time" id="time-org-jab">Synced: 06/11/2026 10:45 am</span>
+              <button class="btn-select-bench" data-org-id="jab" id="btn-select-jab">Use as Benchmark</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explanatory note -->
+        <div class="top3-footer-note">
+          <span class="note-icon">💡</span>
+          <span><strong>Why Retail Gold Rates Differ Across India:</strong> While global gold trades in USD/oz, Indian retail board prices differ slightly across states due to regional logistics, local association fixing conventions, and making fee traditions. <strong>GRT Jewellers</strong> is the direct showroom board. <strong>MJDTA</strong> is the Chennai trade fixing benchmark. <strong>IBJA</strong> is the national wholesale/SGB benchmark. <strong>JAB</strong> fixes the daily Karnataka rate. Clicking <em>"Use as Benchmark"</em> dynamically recalibrates this entire terminal!</span>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 2: AUTONOMOUS 3-HOUR BULLION FORECASTER -->
+      <!-- ============================================ -->
+      <section class="card ai-forecast-card" id="section-ai-forecast">
+        <div class="card-header">
+          <div>
+            <div class="ai-header-badge">
+              <span class="ai-spark-icon">🔄</span>
+              <span>AUTONOMOUS 3-HOUR BULLION FORECAST DESK</span>
+              <span class="badge-no-api">NO API KEY NEEDED</span>
+            </div>
+            <h2 class="section-heading mt-2">Retail Gold Price Forecast (Upcoming N Days)</h2>
+            <p class="section-sub">Evaluates the 4-Pillar Macro Matrix & GRT Jewellers rate every 3 hours to predict retail price swings before you buy</p>
+          </div>
+          <!-- 3-Hour Automation Live Control Status -->
+          <div class="auto-status-control-box">
+            <div class="auto-status-indicator">
+              <span class="status-pulse-dot"></span>
+              <span class="auto-status-title">3-Hour Engine: <strong>RUNNING</strong></span>
+            </div>
+            <div class="auto-timer-sub">
+              <span>Next Check In: <strong id="auto-countdown-text">02h 59m 45s</strong></span>
+              <span>• Last: <strong id="auto-last-updated-text">Just now</strong></span>
+            </div>
+            <button class="btn-force-refresh" id="btn-force-forecast" title="Trigger an immediate 3-hour check right now without waiting">
+              ⚡ Check & Update Now
+            </button>
+          </div>
+        </div>
+
+        <!-- 4-HORIZON AT-A-GLANCE SUMMARY CARDS -->
+        <div class="horizon-cards-grid">
+          <div class="h-card active" data-horizon="3d">
+            <div class="h-card-top">
+              <span class="h-days-badge">3 DAYS</span>
+              <span class="h-dir-tag down">📉 DIP EXPECTED</span>
+            </div>
+            <div class="h-card-title">Immediate Dip Window</div>
+            <div class="h-card-rate" id="card-rate-3d">₹13,260 - ₹13,340 / g</div>
+            <div class="h-card-sovereign" id="card-sov-3d">₹1,06,080 - ₹1,06,720 (8g)</div>
+            <div class="h-card-action">WAIT 2–3 DAYS</div>
+            <div class="h-card-tip">Save ~₹400–₹1,000 on 1 Sovereign</div>
+          </div>
+
+          <div class="h-card" data-horizon="7d">
+            <div class="h-card-top">
+              <span class="h-days-badge">7 DAYS</span>
+              <span class="h-dir-tag neutral">⚖️ CONSOLIDATION</span>
+            </div>
+            <div class="h-card-title">Weekly Outlook</div>
+            <div class="h-card-rate" id="card-rate-7d">₹13,300 - ₹13,460 / g</div>
+            <div class="h-card-sovereign" id="card-sov-7d">₹1,06,400 - ₹1,07,680 (8g)</div>
+            <div class="h-card-action">STAGGER PURCHASES</div>
+            <div class="h-card-tip">Buy 50% now, 50% on pullback</div>
+          </div>
+
+          <div class="h-card" data-horizon="14d">
+            <div class="h-card-top">
+              <span class="h-days-badge">14 DAYS</span>
+              <span class="h-dir-tag up">📈 UPWARD PRESSURE</span>
+            </div>
+            <div class="h-card-title">Fortnightly Target</div>
+            <div class="h-card-rate" id="card-rate-14d">₹13,420 - ₹13,620 / g</div>
+            <div class="h-card-sovereign" id="card-sov-14d">₹1,07,360 - ₹1,08,960 (8g)</div>
+            <div class="h-card-action">ACCUMULATE SOON</div>
+            <div class="h-card-tip">Lock rate before month-end rally</div>
+          </div>
+
+          <div class="h-card" data-horizon="30d">
+            <div class="h-card-top">
+              <span class="h-days-badge">30 DAYS</span>
+              <span class="h-dir-tag strong-up">🚀 SECULAR BREAKOUT</span>
+            </div>
+            <div class="h-card-title">Monthly Macro Bias</div>
+            <div class="h-card-rate" id="card-rate-30d">₹13,550 - ₹13,900 / g</div>
+            <div class="h-card-sovereign" id="card-sov-30d">₹1,08,400 - ₹1,11,200 (8g)</div>
+            <div class="h-card-action">LONG-TERM BUY BIAS</div>
+            <div class="h-card-tip">Accumulate dips for wedding sets</div>
+          </div>
+        </div>
+
+        <!-- DETAILED STRATEGIC ASSESSMENT OF SELECTED HORIZON -->
+        <div class="forecast-detail-panel">
+          <div class="detail-header-flex">
+            <div class="detail-title-group">
+              <div class="selected-horizon-label" id="detail-horizon-heading">Detailed Analysis for Next 3 Days (Dip Window)</div>
+              <div class="detail-benchmark-note" id="detail-benchmark-sub">Calibrated to GRT Jewellers 22K benchmark: ₹13,385 / g</div>
+            </div>
+            <div class="detail-confidence-pill" id="detail-confidence-badge">
+              Confidence: <strong>78% Probability</strong>
+            </div>
+          </div>
+
+          <div class="forecast-metrics-grid">
+            <div class="f-metric-card">
+              <span class="f-metric-label">22K Jewellery (Per 1 Gram)</span>
+              <span class="f-metric-val gold" id="det-proj-22k-1g">₹13,260 - ₹13,340</span>
+              <span class="f-metric-sub" id="det-sub-22k-1g">Expected dip of -₹45 to -₹125/g</span>
+            </div>
+            <div class="f-metric-card">
+              <span class="f-metric-label">1 Sovereign / Pavan (8 Grams)</span>
+              <span class="f-metric-val gold" id="det-proj-sovereign">₹1,06,080 - ₹1,06,720</span>
+              <span class="f-metric-sub positive" id="det-sub-sovereign">Save ~₹400–₹1,000 per coin</span>
+            </div>
+            <div class="f-metric-card">
+              <span class="f-metric-label">24K Pure Bullion (10 Grams)</span>
+              <span class="f-metric-val" id="det-proj-24k-10g">₹1,44,650 - ₹1,45,500</span>
+              <span class="f-metric-sub" id="det-sub-24k-10g">Est. -₹500 to -₹1,370 pullback</span>
+            </div>
+            <div class="f-metric-card action-card">
+              <span class="f-metric-label">Recommended Buyer Strategy</span>
+              <span class="f-metric-val action" id="det-buyer-action">WAIT 2 TO 3 DAYS BEFORE BUYING</span>
+              <span class="f-metric-sub" id="det-buyer-sub">Compare making charges (VA) while waiting</span>
+            </div>
+          </div>
+
+          <!-- RATIONALE & SHOPPING TIP BOX -->
+          <div class="detail-narrative-box">
+            <div class="narrative-section">
+              <div class="narrative-tag">📊 MACRO MATRIX RATIONALE:</div>
+              <p id="det-narrative-text">
+                Gold's global spot price ($2,718/oz) has reached short-term technical resistance, while the US Dollar Index (DXY) is testing support around 103.4. Over the next 72 hours, a mild consolidation pullback is statistically favored before the next major breakout leg. For Indian retail shoppers at GRT Jewellers, holding off for 2–3 days can save ~₹400–₹1,000 on an 8-gram Sovereign.
+              </p>
+            </div>
+            <div class="shopping-tip-section">
+              <div class="shopping-tip-tag">💡 JEWELLERY & COIN SHOPPING TIP:</div>
+              <p id="det-shopping-tip">
+                If buying jewellery, use this 2–3 day wait to compare making charges (VA) across stores. For 24K coins, prepare to buy on the first ₹50/g dip.
+              </p>
+            </div>
+          </div>
+
+          <!-- PAST 3-HOUR CHECK HISTORY ACCORDION -->
+          <div class="history-accordion">
+            <button type="button" class="btn-toggle-history" id="btn-toggle-history">
+              <span>🕒 View Past 3-Hour Check History & Validation Log (Click to Expand)</span>
+              <span class="chevron-icon" id="history-chevron">▼</span>
+            </button>
+            <div class="history-content-box hidden" id="history-content-box">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp (IST)</th>
+                    <th>GRT 22K Rate</th>
+                    <th>Score</th>
+                    <th>3-Day Call</th>
+                    <th>7-Day Call</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="history-table-body">
+                  <tr>
+                    <td>Today, 08:30 IST</td>
+                    <td>₹13,385 / g</td>
+                    <td>84/100</td>
+                    <td><span class="badge-history down">DOWN_DIP</span></td>
+                    <td><span class="badge-history neutral">RANGEBOUND</span></td>
+                    <td><span class="badge-status-active">Active</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- OPTIONAL ADVANCED: GOOGLE AI STUDIO / GEMINI COLLAPSIBLE ACCORDION -->
+        <details class="optional-gemini-accordion" id="optional-gemini-details">
+          <summary class="gemini-summary">
+            <span>⚙️ Optional Advanced: Connect Custom Google AI Studio API Key (Gemini LLM)</span>
+            <span class="summary-hint">Not required • Autonomous engine is already active</span>
+          </summary>
+          <div class="api-key-setup-box-inner mt-3">
+            <div class="setup-box-top">
+              <div class="setup-title-group">
+                <span class="setup-icon-badge">🔑</span>
+                <div>
+                  <div class="setup-main-title">Custom Google Gemini API Key (Optional)</div>
+                  <div class="setup-sub-title">Connects your own Gemini 2.5 Flash instance for customized natural language queries</div>
+                </div>
+              </div>
+              <div class="setup-status-pill" id="setup-status-pill">
+                <span class="setup-status-dot" id="setup-status-dot"></span>
+                <span id="setup-status-text">AUTONOMOUS ENGINE ACTIVE</span>
+              </div>
+            </div>
+
+            <div class="setup-input-controls">
+              <div class="key-input-wrapper">
+                <span class="lock-icon">🔒</span>
+                <input type="password" id="input-api-key" placeholder="Optional: Paste Gemini API key here..." class="key-text-input">
+                <button type="button" id="btn-toggle-eye" class="btn-toggle-eye" title="Show / Hide Key">👁️</button>
+              </div>
+              <button type="button" class="btn-key-save" id="btn-save-key">💾 Save Key</button>
+              <button type="button" class="btn-key-test" id="btn-test-key">⚡ Test Key</button>
+              <button type="button" class="btn-key-clear" id="btn-clear-key">Clear</button>
+            </div>
+            <div class="key-msg" id="key-feedback-msg"></div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 2.5: 20-YEAR STRATEGY BACKTEST LAB -->
+      <!-- ============================================ -->
+      <section class="card backtest-lab-card" id="section-backtest-lab">
+        <div class="card-header">
+          <div>
+            <div class="backtest-badge-row">
+              <span class="badge-algo">🧪 CORE ≥8/10 MACRO + TECHNICAL LAB</span>
+              <span class="badge-mjdta" id="bt-days-badge">2006 – 2026 MJDTA Historical (6,427+ Trading Days)</span>
+              <span class="badge-winrate" id="bt-winrate-badge">76.4% Win Rate</span>
+              <span class="badge-algo" id="bt-macro-confirmed-badge">Macro-Confirmed: 90.3% Win</span>
+            </div>
+            <h2 class="section-heading mt-2">20-Year Macro + Technical Strategy Backtest</h2>
+            <p class="section-sub" id="bt-hero-sub">Evaluated across 20+ years of MJDTA retail gold rates aligned daily with Core ≥8/10 Global Macro drivers (XAU/USD, US 10Y, USD/INR, DXY).</p>
+          </div>
+          <div class="backtest-header-stats">
+            <div class="stat-pill-highlight">
+              <span class="stat-pill-label">WIN RATE</span>
+              <span class="stat-pill-val" id="bt-winrate-pill">72.3%</span>
+            </div>
+            <div class="stat-pill-highlight">
+              <span class="stat-pill-label">AVG SOVEREIGN SAVING</span>
+              <span class="stat-pill-val positive" id="bt-avg-saving-pill">₹1,242</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Era & Year Navigator (2006 to 2026) -->
+        <div class="backtest-navigator-bar">
+          <div class="nav-left">
+            <span class="nav-label">Historical Epoch:</span>
+            <div class="era-buttons-group">
+              <button class="btn-era-pill active" data-era="all">All (2006–2026)</button>
+              <button class="btn-era-pill" data-era="2006-2010">2006–2010 (GFC Era)</button>
+              <button class="btn-era-pill" data-era="2011-2015">2011–2015 (Debt Peak)</button>
+              <button class="btn-era-pill" data-era="2016-2020">2016–2020 (COVID Shock)</button>
+              <button class="btn-era-pill" data-era="2021-2026">2021–2026 (Historic Bull)</button>
+            </div>
+          </div>
+          <div class="nav-right">
+            <label for="select-backtest-year" class="select-year-label">Filter Exact Year:</label>
+            <select id="select-backtest-year" class="backtest-year-dropdown" title="Select any year since 2006 to inspect exact metrics and signals">
+              <option value="all">🌟 Full 20-Year Backtest (2026 – 2006)</option>
+              <option value="2026" id="bt-opt-2026">2026 (Latest Live YTD)</option>
+              <option value="2025">2025 (Secular Bull: ₹7,150 ➔ ₹12,480/g)</option>
+              <option value="2024">2024 (Budget Duty Cut: ₹5,910 ➔ ₹7,110/g)</option>
+              <option value="2023">2023 (Banking Crisis: ₹5,150 ➔ ₹5,910/g)</option>
+              <option value="2022">2022 (Ukraine Inflation: ₹4,559 ➔ ₹5,130/g)</option>
+              <option value="2021">2021 (Post-COVID Base: ₹4,735 ➔ ₹4,519/g)</option>
+              <option value="2020">2020 (COVID-19 Shock: ₹3,735 ➔ ₹4,726/g)</option>
+              <option value="2019">2019 (Rate Cut Cycle: ₹3,021 ➔ ₹3,742/g)</option>
+              <option value="2018">2018 (Tightening: ₹2,807 ➔ ₹3,017/g)</option>
+              <option value="2017">2017 (GST Transition: ₹2,704 ➔ ₹2,820/g)</option>
+              <option value="2016">2016 (Demonetization: ₹2,373 ➔ ₹2,698/g)</option>
+              <option value="2015">2015 (Cyclical Low: ₹2,524 ➔ ₹2,369/g)</option>
+              <option value="2014">2014 (Drift Phase: ₹2,759 ➔ ₹2,541/g)</option>
+              <option value="2013">2013 (Taper Tantrum: ₹2,886 ➔ ₹2,760/g)</option>
+              <option value="2012">2012 (Consolidation: ₹2,560 ➔ ₹2,870/g)</option>
+              <option value="2011">2011 (US Debt Peak: ₹1,929 ➔ ₹2,558/g)</option>
+              <option value="2010">2010 (Eurozone Crisis: ₹1,556 ➔ ₹1,921/g)</option>
+              <option value="2009">2009 (Stimulus Rally: ₹1,246 ➔ ₹1,563/g)</option>
+              <option value="2008">2008 (GFC Panic: ₹986 ➔ ₹1,223/g)</option>
+              <option value="2007">2007 (Pre-Crisis: ₹862 ➔ ₹991/g)</option>
+              <option value="2006">2006 (Base Year: ₹711 ➔ ₹862/g)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Metric Highlight Cards Grid -->
+        <div class="backtest-metrics-grid">
+          <div class="bt-metric-card">
+            <div class="bt-card-label">Dip Signals Evaluated</div>
+            <div class="bt-card-val" id="bt-total-signals">865</div>
+            <div class="bt-card-sub">625 Wins • 218 Losses • 22 Flat</div>
+          </div>
+          <div class="bt-metric-card accent-win">
+            <div class="bt-card-label">Dip-Buying Win Rate</div>
+            <div class="bt-card-val positive" id="bt-win-rate">72.3%</div>
+            <div class="bt-card-sub">Price dropped within 3–7 days</div>
+          </div>
+          <div class="bt-metric-card accent-gold">
+            <div class="bt-card-label">Avg Saving per Sovereign (8g)</div>
+            <div class="bt-card-val gold" id="bt-avg-sovereign">₹1,242</div>
+            <div class="bt-card-sub">Saved by waiting vs FOMO buy</div>
+          </div>
+          <div class="bt-metric-card accent-cyan">
+            <div class="bt-card-label">Cumulative Sovereign Savings</div>
+            <div class="bt-card-val cyan" id="bt-total-savings">₹7,76,552</div>
+            <div class="bt-card-sub">Total wealth protected</div>
+          </div>
+          <div class="bt-metric-card">
+            <div class="bt-card-label">20-Year Asset Return</div>
+            <div class="bt-card-val" id="bt-cagr">18.48x <span class="sub-cagr">(15.05% CAGR)</span></div>
+            <div class="bt-card-sub" id="bt-cagr-sub">₹711/g (2006) ➔ Live 2026</div>
+          </div>
+          <div class="bt-metric-card">
+            <div class="bt-card-label">Avg Optimal Wait Horizon</div>
+            <div class="bt-card-val" id="bt-avg-horizon">3.8 Days</div>
+            <div class="bt-card-sub">Time to reach local dip minimum</div>
+          </div>
+        </div>
+
+        <!-- Live Today Signal vs Yesterday Next-Day Strategy Verification -->
+        <div class="strategy-live-validation-bar mt-3" id="bt-live-strategy-banner">
+          <div class="strategy-validation-card" id="bt-today-signal-box">
+            <div class="sv-header">
+              <span class="sv-title">📡 TODAY'S STRATEGY CALL</span>
+              <span class="sv-date" id="bt-today-date">--</span>
+            </div>
+            <div class="sv-main-row">
+              <span class="sig-call-badge accumulate" id="bt-today-signal-badge">ACCUMULATE</span>
+              <strong class="sv-price" id="bt-today-price">₹12,815/g</strong>
+              <span class="sv-tech" id="bt-today-tech">RSI 36.6 • -2.1% vs 20-DMA</span>
+            </div>
+            <p class="sv-desc" id="bt-today-desc">Loading latest signal calibration...</p>
+          </div>
+
+          <div class="strategy-validation-card" id="bt-yesterday-check-box">
+            <div class="sv-header">
+              <span class="sv-title">🔍 NEXT-DAY VERIFICATION (YESTERDAY ➔ TODAY)</span>
+              <span class="sv-date" id="bt-yest-dates">--</span>
+            </div>
+            <div class="sv-main-row">
+              <span class="sig-call-badge" id="bt-yest-signal-badge">--</span>
+              <span class="sv-arrow" id="bt-yest-move">₹-- ➔ ₹--</span>
+              <span class="nextday-verdict-badge pending" id="bt-yest-verdict">--</span>
+            </div>
+            <p class="sv-desc" id="bt-yest-desc">Evaluating whether yesterday’s call succeeded on today’s rate...</p>
+          </div>
+        </div>
+
+        <div class="strategy-breakdown-strip mt-2" id="bt-strategy-breakdown-row">
+          <!-- Populated dynamically with BUY NOW, ACCUMULATE, AVOID / WAIT & Next-Day T+1 Win Rates -->
+        </div>
+
+        <div class="strategy-breakdown-strip mt-2" id="bt-macro-tiers-row">
+          <!-- Populated dynamically with Technical-Only Baseline, Macro-Confirmed >=8/10 & Tailwind/Neutral/Headwind Tiers -->
+        </div>
+
+        <!-- 20-Year Historical Equity & Signal Chart -->
+        <div class="backtest-chart-container">
+          <div class="chart-header-row">
+            <div class="chart-title-group">
+              <h3 class="chart-box-title">MJDTA 20-Year Historical Retail Gold Trend (2006 – 2026)</h3>
+              <span class="chart-box-sub">Daily 22K (916) Price with 50-Day & 200-Day Trend Moving Averages</span>
+            </div>
+            <div class="chart-controls-group">
+              <div class="chart-tf-buttons">
+                <button class="bt-tf-btn active" data-chart-era="all">MAX (2006–2026)</button>
+                <button class="bt-tf-btn" data-chart-era="2006-2010">2006–2010</button>
+                <button class="bt-tf-btn" data-chart-era="2011-2015">2011–2015</button>
+                <button class="bt-tf-btn" data-chart-era="2016-2020">2016–2020</button>
+                <button class="bt-tf-btn" data-chart-era="2021-2026">2021–2026</button>
+              </div>
+              <div class="chart-legend-custom">
+                <span class="legend-item"><span class="dot-line gold"></span> 22K Rate (₹/g)</span>
+                <span class="legend-item"><span class="dot-line blue"></span> 50-Day SMA</span>
+                <span class="legend-item"><span class="dot-line purple"></span> 200-Day SMA</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chart-backtest-history"></canvas>
+          </div>
+        </div>
+
+        <!-- Complete 21-Year Annual Performance Matrix (Every Year: 2006 – 2026) -->
+        <div class="yearly-breakdown-container mt-4">
+          <div class="yearly-header">
+            <div>
+              <div class="yearly-title-row">
+                <h4 class="sub-table-title">📅 Annual Backtest Performance Matrix (Every Year: 2026 to 2006)</h4>
+                <span class="badge-algo">21 YEARS CONTINUOUS</span>
+              </div>
+              <span class="sub-table-desc">Full 20-year trading audit. Click "Inspect Year" on any row to immediately filter the chart and signal logs for that exact year.</span>
+            </div>
+            <div class="yearly-actions">
+              <button class="btn-export-csv" id="btn-export-csv" title="Download 2006-2026 historical daily data as CSV">📥 Export 2006–2026 CSV</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="yearly-table" id="yearly-table">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Open Rate (₹/g)</th>
+                  <th>Close Rate (₹/g)</th>
+                  <th>Annual Gain</th>
+                  <th>Dip Signals</th>
+                  <th>Wins (Dip Lowered)</th>
+                  <th>Win Rate %</th>
+                  <th>Avg ₹ Saved / Sov</th>
+                  <th>Total Sovereign Savings</th>
+                  <th>Quick Filter</th>
+                </tr>
+              </thead>
+              <tbody id="yearly-tbody">
+                <!-- Dynamically populated for all 21 years from 2006 to 2026 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Crisis Regimes Breakdown -->
+        <div class="regimes-container mt-4">
+          <div class="regimes-header">
+            <h4 class="sub-table-title">🏛️ Historical Macro Crisis Regimes Performance (2006–2026)</h4>
+            <span class="sub-table-desc">Verification of strategy robustness across secular bull runs, crashes, and consolidations</span>
+          </div>
+          <div class="table-responsive">
+            <table class="regimes-table" id="regimes-table">
+              <thead>
+                <tr>
+                  <th>Macro Regime & Cycle</th>
+                  <th>Total Signals</th>
+                  <th>Dip Wins</th>
+                  <th>Win Rate %</th>
+                  <th>Avg ₹ Saved / Sovereign</th>
+                  <th>Total Sovereign Savings</th>
+                  <th>Strategy Reliability</th>
+                </tr>
+              </thead>
+              <tbody id="regimes-tbody">
+                <!-- Dynamically populated or rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Multi-Signal Strategy Audit & Next-Day Validation Log -->
+        <div class="audit-log-container mt-4">
+          <div class="audit-header">
+            <div>
+              <h4 class="sub-table-title">📋 Strategy Signal History & Next-Day Validation Log (2026–2006)</h4>
+              <span class="sub-table-desc">Descending history of BUY NOW, ACCUMULATE, AVOID / WAIT & daily HOLD calls — verified against Next-Day (T+1) & 7-Day price moves</span>
+            </div>
+            <div class="audit-controls-wrap">
+              <div class="audit-mode-toggle">
+                <button type="button" class="audit-mode-btn active" id="btn-audit-mode-signals">⚡ Strategy Signals</button>
+                <button type="button" class="audit-mode-btn" id="btn-audit-mode-daily">📅 Daily 90D Log (Incl. Hold)</button>
+              </div>
+              <select id="select-audit-year" class="audit-year-select" title="Filter signals by year (2026–2006)">
+                <option value="all">🌟 All Years (2026–2006)</option>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+                <option value="2013">2013</option>
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+                <option value="2010">2010</option>
+                <option value="2009">2009</option>
+                <option value="2008">2008</option>
+                <option value="2007">2007</option>
+                <option value="2006">2006</option>
+              </select>
+              <select id="select-audit-signal-type" class="audit-year-select" title="Filter by signal call">
+                <option value="all">All Signal Calls</option>
+                <option value="BUY_NOW">🟢 BUY NOW</option>
+                <option value="ACCUMULATE">🔵 ACCUMULATE</option>
+                <option value="AVOID_WAIT">🟠 AVOID / WAIT</option>
+                <option value="HOLD">⚪ HOLD / NEUTRAL</option>
+              </select>
+              <div class="audit-filters">
+                <button type="button" class="audit-filter-btn active" data-filter="all" id="btn-audit-all">All</button>
+                <button type="button" class="audit-filter-btn" data-filter="next_ok" id="btn-audit-nextday">Next-Day ✓</button>
+                <button type="button" class="audit-filter-btn" data-filter="wins" id="btn-audit-wins">7D Wins</button>
+                <button type="button" class="audit-filter-btn" data-filter="losses" id="btn-audit-losses">Missed</button>
+              </div>
+              <input type="text" id="input-audit-search" class="audit-search-input" placeholder="Search date, BUY, SUCCEEDED...">
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Signal Call</th>
+                  <th>Rate at Signal</th>
+                  <th>Core Macro (8+)</th>
+                  <th>Next Day (T+1)</th>
+                  <th>Next-Day Strategy</th>
+                  <th>7-Day Target</th>
+                  <th>Benefit / Sov</th>
+                  <th>7-Day Verdict</th>
+                </tr>
+              </thead>
+              <tbody id="audit-log-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="audit-pagination-row">
+            <span class="audit-count-label" id="audit-count-label">Showing 30 of 865 signals</span>
+            <div class="pagination-buttons">
+              <button class="btn-load-more-signals" id="btn-load-more-signals">Load More (+30)</button>
+              <button class="btn-load-all-signals" id="btn-load-all-signals">Show All (865)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 3: RETAIL JEWELLERY & COIN CALCULATOR -->
+      <!-- ============================================ -->
+      <section class="card calculator-card" id="section-calculator">
+        <div class="card-header">
+          <div>
+            <h2 class="section-heading">Indian Retail Jewellery & Coin Billing Calculator</h2>
+            <p class="section-sub">Calculate your final store billing amount including Gold Value, Making Charges (VA), and 3% GST</p>
+          </div>
+          <div class="jewel-tip-pill">
+            💡 Pro-Tip: Making charges on coins should never exceed 2–4%
+          </div>
+        </div>
+
+        <div class="calc-body-grid">
+          <!-- Inputs Column -->
+          <div class="calc-inputs-col">
+            <!-- Purity Picker -->
+            <div class="calc-group">
+              <label class="calc-label">Select Purity:</label>
+              <div class="purity-btn-group">
+                <button class="purity-choice-btn active" data-purity="22k">22K Hallmark (916)</button>
+                <button class="purity-choice-btn" data-purity="24k">24K Pure (999)</button>
+                <button class="purity-choice-btn" data-purity="18k">18K Setting (750)</button>
+              </div>
+            </div>
+
+            <!-- Weight Input & Quick Presets -->
+            <div class="calc-group">
+              <div class="calc-header-flex">
+                <label class="calc-label">Weight of Jewellery / Coin:</label>
+                <span class="calc-current-display"><strong id="calc-weight-display">8.0</strong> grams</span>
+              </div>
+              <input type="number" id="calc-weight-input" min="0.5" max="500" step="0.5" value="8" class="calc-num-input">
+              <div class="quick-weights-row">
+                <button class="quick-wt-btn" data-wt="1">1g Coin</button>
+                <button class="quick-wt-btn" data-wt="4">4g (1/2 Pavan)</button>
+                <button class="quick-wt-btn active" data-wt="8">8g (1 Sovereign)</button>
+                <button class="quick-wt-btn" data-wt="10">10g Standard</button>
+                <button class="quick-wt-btn" data-wt="16">16g (2 Sovereigns)</button>
+                <button class="quick-wt-btn" data-wt="32">32g (Bridal Set)</button>
+              </div>
+            </div>
+
+            <!-- Making Charges / Wastage (VA) Slider -->
+            <div class="calc-group">
+              <div class="calc-header-flex">
+                <label class="calc-label">Making Charges / Wastage (VA %):</label>
+                <span class="calc-current-display gold"><strong id="calc-mc-display">10.0%</strong></span>
+              </div>
+              <input type="range" id="calc-mc-slider" min="0" max="25" step="0.5" value="10" class="custom-slider">
+              <div class="mc-presets-row">
+                <span class="mc-hint">Coins: 1–3%</span>
+                <span class="mc-hint">Plain Chains/Bangles: 6–10%</span>
+                <span class="mc-hint">Intricate Bridal: 12–18%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invoice / Billing Breakdown Column -->
+          <div class="calc-invoice-box">
+            <div class="invoice-title">ESTIMATED STORE BILLING INVOICE</div>
+            <div class="invoice-table">
+              <div class="inv-row">
+                <span>Base Gold Rate (<span id="inv-purity-name">22K</span>)</span>
+                <strong class="inv-val" id="inv-rate-per-g">₹7,365 / g</strong>
+              </div>
+              <div class="inv-row">
+                <span>Net Gold Value (<span id="inv-weight-val">8.0g</span>)</span>
+                <strong class="inv-val" id="inv-base-gold-val">₹58,920</strong>
+              </div>
+              <div class="inv-row">
+                <span>Making Charges (<span id="inv-mc-pct">10.0%</span>)</span>
+                <strong class="inv-val" id="inv-mc-val">₹5,892</strong>
+              </div>
+              <div class="inv-row">
+                <span>Subtotal (Gold + Making)</span>
+                <strong class="inv-val" id="inv-subtotal">₹64,812</strong>
+              </div>
+              <div class="inv-row">
+                <span>GST (3% on Total Invoice)</span>
+                <strong class="inv-val positive" id="inv-gst-val">₹1,944</strong>
+              </div>
+              <div class="inv-divider"></div>
+              <div class="inv-row total-row">
+                <span>TOTAL PAYABLE AMOUNT</span>
+                <strong class="inv-val total-price" id="inv-total-bill">₹66,756</strong>
+              </div>
+              <div class="inv-row per-gram-allin">
+                <span>Effective Cost per Gram (All-in)</span>
+                <strong class="inv-val" id="inv-allin-per-g">₹8,344 / g</strong>
+              </div>
+            </div>
+
+            <div class="invoice-tip">
+              <strong>Jeweller Negotiation Checklist:</strong> Always verify the 6-digit HUID BIS Hallmark code, ask for itemized making charges, and ensure the 3% GST is billed on the final amount.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 4: THE 4 GOLDEN MACRO RULES CHEAT SHEET -->
+      <!-- ============================================ -->
+      <section class="card macro-rules-card" id="section-macro-rules">
+        <div class="card-header">
+          <div>
+            <div class="rules-badge">
+              <span>🧠 CORE ANALYTICAL FOUNDATION</span>
+              <span class="badge-rules-count">4 PILLARS INCLUDED</span>
+            </div>
+            <h2 class="section-heading mt-2">The 4 Core Macro Indicators Governing Gold Prices</h2>
+            <p class="section-sub">Simple cause-and-effect rules driving all predictions and retail timing in this terminal</p>
+          </div>
+          <div class="perfect-storm-pill">
+            ⚡ Breakout = Weak USD + Falling Yields + High Oil + Market Fear
+          </div>
+        </div>
+
+        <div class="rules-table-wrapper">
+          <table class="macro-rules-table">
+            <thead>
+              <tr>
+                <th style="width: 24%;">Market Indicator (Tier)</th>
+                <th style="width: 15%;">When Indicator ↑</th>
+                <th style="width: 15%;">When Indicator ↓</th>
+                <th>Impact on Indian Gold &amp; Prediction Weight</th>
+                <th style="width: 18%;">Live Signal Now</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="indicator-name-box">
+                    <span class="indicator-icon">🪙</span>
+                    <div>
+                      <strong>Global Spot Gold <span class="driver-tier-tag core">CORE 9.5/10</span></strong>
+                      <span class="ind-sub">XAU / USD Spot (Weight: 27.9%)</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="impact-badge up">Gold goes UP ↑</span></td>
+                <td><span class="impact-badge down">Gold goes DOWN ↓</span></td>
+                <td class="concept-cell">
+                  Anchor global bullion price above/below 20-DMA &amp; 50-DMA sets trend persistence and flows directly into MCX and Chennai retail parity (r = +0.98 long-term level).
+                </td>
+                <td>
+                  <div class="live-signal-cell" id="signal-cell-gold">
+                    <span class="sig-val" id="sig-val-gold">--</span>
+                    <span class="sig-verdict positive">Core Driver</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="indicator-name-box">
+                    <span class="indicator-icon">📉</span>
+                    <div>
+                      <strong>US 10Y Treasury Yield <span class="driver-tier-tag core">CORE 8.5/10</span></strong>
+                      <span class="ind-sub">^TNX Par Yield (Weight: 25.0%)</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="impact-badge down">Gold goes DOWN ↓</span></td>
+                <td><span class="impact-badge up">Gold goes UP ↑</span></td>
+                <td class="concept-cell">
+                  Gold pays zero yield. Falling US 10Y yields reduce the opportunity cost of holding physical gold versus risk-free sovereign bonds, driving institutional inflows.
+                </td>
+                <td>
+                  <div class="live-signal-cell" id="signal-cell-yields">
+                    <span class="sig-val" id="sig-val-yields">--</span>
+                    <span class="sig-verdict positive">Core Driver</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="indicator-name-box">
+                    <span class="indicator-icon">🇮🇳</span>
+                    <div>
+                      <strong>USD / INR Exchange Rate <span class="driver-tier-tag core">CORE 8.0/10</span></strong>
+                      <span class="ind-sub">INR per USD (Weight: 23.5%)</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="impact-badge up">Indian Gold UP ↑</span></td>
+                <td><span class="impact-badge down">Indian Gold DOWN ↓</span></td>
+                <td class="concept-cell">
+                  India imports ~90% of gold supply. A rising USD/INR (weaker Rupee) mechanically raises landed 22K/24K INR prices even when XAU/USD is sideways (r = +0.84 long-term).
+                </td>
+                <td>
+                  <div class="live-signal-cell" id="signal-cell-usdinr">
+                    <span class="sig-val" id="sig-val-usdinr">--</span>
+                    <span class="sig-verdict positive">Core Driver</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="indicator-name-box">
+                    <span class="indicator-icon">💵</span>
+                    <div>
+                      <strong>US Dollar Index <span class="driver-tier-tag core">CORE 8.0/10</span></strong>
+                      <span class="ind-sub">DXY Index (Weight: 23.5%)</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="impact-badge down">Gold goes DOWN ↓</span></td>
+                <td><span class="impact-badge up">Gold goes UP ↑</span></td>
+                <td class="concept-cell">
+                  Gold is priced globally in USD (20D return r = -0.45 vs XAU/USD). A rising greenback tightens global physical demand; dollar weakness unlocks bullion rallies.
+                </td>
+                <td>
+                  <div class="live-signal-cell" id="signal-cell-usd">
+                    <span class="sig-val" id="sig-val-usd">--</span>
+                    <span class="sig-verdict positive">Core Driver</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="secondary-driver-row">
+                <td>
+                  <div class="indicator-name-box">
+                    <span class="indicator-icon">🛢️</span>
+                    <div>
+                      <strong>Crude Oil (WTI) <span class="driver-tier-tag secondary">SECONDARY 5.5/10</span></strong>
+                      <span class="ind-sub">CL=F (Context Only — Not Scored)</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="impact-badge up">Inflation Pressure ↑</span></td>
+                <td><span class="impact-badge down">Inflation Eases ↓</span></td>
+                <td class="concept-cell">
+                  Energy costs influence long-term CPI expectations, but daily correlation with Indian gold returns is too noisy for short-term forecast weighting.
+                </td>
+                <td>
+                  <div class="live-signal-cell" id="signal-cell-oil">
+                    <span class="sig-val" id="sig-val-oil">--</span>
+                    <span class="sig-verdict">Context Only</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="secondary-driver-row">
+                <td>
+                  <div class="indicator-name-box">
+                    <span class="indicator-icon">😨</span>
+                    <div>
+                      <strong>CBOE Volatility (VIX) <span class="driver-tier-tag secondary">SECONDARY 4.5/10</span></strong>
+                      <span class="ind-sub">^VIX (Context Only — Not Scored)</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="impact-badge up">Safe Haven ↑</span></td>
+                <td><span class="impact-badge down">Risk-On ↓</span></td>
+                <td class="concept-cell">
+                  Short-term equity panic creates transient spikes often reversed by margin liquidations; monitored for stress context only outside Core ≥8/10 predictions.
+                </td>
+                <td>
+                  <div class="live-signal-cell" id="signal-cell-vix">
+                    <span class="sig-val" id="sig-val-vix">--</span>
+                    <span class="sig-verdict">Context Only</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 5: MASTER BREAKOUT PREDICTOR HERO -->
+      <!-- ============================================ -->
+      <section class="card hero-breakout-card">
+        <div class="card-header">
+          <div>
+            <h2 class="section-heading">Core Macro Breakout Probability Engine (&ge; 8/10 Drivers)</h2>
+            <p class="section-sub">Synthesizing the 4 Core Drivers Rated &ge; 8/10: Spot Gold (9.5) &bull; US 10Y Yield (8.5) &bull; USD/INR (8.0) &bull; DXY (8.0)</p>
+          </div>
+          <div class="badge-regime" id="regime-badge">STRONG BULLISH CONVERGENCE</div>
+        </div>
+
+        <div class="hero-body">
+          <!-- GAUGE & MASTER SCORE -->
+          <div class="gauge-container">
+            <div class="svg-gauge-wrapper">
+              <svg viewBox="0 0 200 120" class="gauge-svg">
+                <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="#262c38" stroke-width="18" stroke-linecap="round"/>
+                <path id="gauge-fill-arc" d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="url(#gauge-gradient)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="60"/>
+                <defs>
+                  <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ef4444" />
+                    <stop offset="35%" stop-color="#f59e0b" />
+                    <stop offset="70%" stop-color="#10b981" />
+                    <stop offset="100%" stop-color="#fbbf24" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="gauge-center-text">
+                <span class="gauge-score" id="master-score-val">84</span>
+                <span class="gauge-scale">/ 100</span>
+              </div>
+            </div>
+            <div class="gauge-labels">
+              <span>0 (Bearish Drag)</span>
+              <span>50 (Consolidation)</span>
+              <span class="gold-text">100 (Breakout)</span>
+            </div>
+          </div>
+
+          <!-- SUMMARY & PILLAR PROGRESS BARS -->
+          <div class="alignment-summary">
+            <div class="status-callout" id="status-callout-text">
+              <strong>Current Regime:</strong> All 4 macro catalysts are in positive alignment. Simultaneous USD decline, falling bond yields, rising oil-driven inflation expectations, and heightened market fear create peak safe-haven expansion dynamics for gold.
+            </div>
+
+            <div class="pillars-status-grid">
+              <!-- Pillar 1: Global Spot Gold (9.5/10) -->
+              <div class="pillar-mini-card" id="pillar-gold">
+                <div class="pillar-mini-header">
+                  <span class="pillar-title">1. Spot Gold (XAU/USD)</span>
+                  <span class="pillar-score" id="score-gold-val">-- / 25</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" id="fill-gold"></div>
+                </div>
+                <div class="pillar-meta">
+                  <span class="relation-tag direct">9.5/10 (27.9% Wt)</span>
+                  <span class="alignment-state" id="state-gold">Tracking 20-DMA</span>
+                </div>
+              </div>
+
+              <!-- Pillar 2: US 10Y Treasury Yield (8.5/10) -->
+              <div class="pillar-mini-card" id="pillar-yields">
+                <div class="pillar-mini-header">
+                  <span class="pillar-title">2. US 10Y Treasury Yield</span>
+                  <span class="pillar-score" id="score-yields-val">-- / 25</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" id="fill-yields"></div>
+                </div>
+                <div class="pillar-meta">
+                  <span class="relation-tag inverse">8.5/10 (25.0% Wt)</span>
+                  <span class="alignment-state" id="state-yields">Tracking 20-DMA</span>
+                </div>
+              </div>
+
+              <!-- Pillar 3: USD / INR Exchange Rate (8.0/10) -->
+              <div class="pillar-mini-card" id="pillar-usd_inr">
+                <div class="pillar-mini-header">
+                  <span class="pillar-title">3. USD / INR Exchange</span>
+                  <span class="pillar-score" id="score-usd_inr-val">-- / 25</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" id="fill-usd_inr"></div>
+                </div>
+                <div class="pillar-meta">
+                  <span class="relation-tag direct">8.0/10 (23.5% Wt)</span>
+                  <span class="alignment-state" id="state-usd_inr">Landed Parity</span>
+                </div>
+              </div>
+
+              <!-- Pillar 4: US Dollar Index DXY (8.0/10) -->
+              <div class="pillar-mini-card" id="pillar-usd">
+                <div class="pillar-mini-header">
+                  <span class="pillar-title">4. US Dollar Index (DXY)</span>
+                  <span class="pillar-score" id="score-usd-val">-- / 25</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" id="fill-usd"></div>
+                </div>
+                <div class="pillar-meta">
+                  <span class="relation-tag inverse">8.0/10 (23.5% Wt)</span>
+                  <span class="alignment-state" id="state-usd">Tracking 20-DMA</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alignment Counter Footer -->
+            <div class="breakout-criteria-footer">
+              <div class="criteria-counter">
+                Breakout Matrix Alignment: <strong id="aligned-count-badge">4 / 4 PILLARS ACTIVE</strong>
+              </div>
+              <div class="criteria-hint">
+                "Perfect Storm" triggers when score &ge; 80 with at least 3 pillars in strong bullish alignment.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 5: LIVE ASSET CARDS (THE MATRIX) -->
+      <!-- ============================================ -->
+      <section class="cards-row">
+        <!-- GOLD TARGET ASSET CARD -->
+        <div class="asset-card featured-gold">
+          <div class="asset-top">
+            <div class="asset-id">
+              <span class="asset-symbol">XAU / USD</span>
+              <span class="asset-name">Gold Spot Global</span>
+            </div>
+            <div class="asset-badge badge-gold">TARGET ASSET</div>
+          </div>
+          <div class="asset-price-box">
+            <div class="asset-price" id="gold-price">$2,718.45</div>
+            <div class="asset-change positive" id="gold-change">+18.60 (+0.69%)</div>
+          </div>
+          <div class="asset-details-grid">
+            <div>
+              <span class="detail-label">24h Range</span>
+              <span class="detail-value" id="gold-range">$2,694.30 - $2,728.10</span>
+            </div>
+            <div>
+              <span class="detail-label">Financial Role</span>
+              <span class="detail-value highlight">Inflation & Risk Absorber</span>
+            </div>
+          </div>
+          <div class="economic-rationale-box">
+            <span class="rationale-heading">Shock Absorber Core:</span>
+            Gold is an uncounterparty hedge against dollar debasement, real rate suppression, and systemic panic.
+          </div>
+        </div>
+
+        <!-- PILLAR 1: CRUDE OIL (SECONDARY CONTEXT) -->
+        <div class="asset-card secondary-context-card">
+          <div class="asset-top">
+            <div class="asset-id">
+              <span class="asset-symbol">CL=F (WTI) <span class="driver-tier-tag secondary">5.5/10 CONTEXT</span></span>
+              <span class="asset-name">Crude Oil WTI</span>
+            </div>
+            <div class="signal-tag neutral" id="signal-oil">SECONDARY CONTEXT</div>
+          </div>
+          <div class="asset-price-box">
+            <div class="asset-price" id="oil-price">$74.85</div>
+            <div class="asset-change positive" id="oil-change">+1.42 (+1.93%)</div>
+          </div>
+          <div class="asset-details-grid">
+            <div>
+              <span class="detail-label">Correlation</span>
+              <span class="detail-value positive">+0.74 (Strong Positive)</span>
+            </div>
+            <div>
+              <span class="detail-label">Driver</span>
+              <span class="detail-value">Supply-Side Inflation</span>
+            </div>
+          </div>
+          <div class="economic-rationale-box">
+            <span class="rationale-heading">The Inflation Connection:</span>
+            Oil spikes elevate transport and manufacturing costs worldwide. Investors rush to gold to preserve purchasing power.
+          </div>
+        </div>
+
+        <!-- PILLAR 2: US DOLLAR -->
+        <div class="asset-card">
+          <div class="asset-top">
+            <div class="asset-id">
+              <span class="asset-symbol">DX-Y.NYB <span class="driver-tier-tag core">CORE 8.0/10</span></span>
+              <span class="asset-name">US Dollar Index (DXY)</span>
+            </div>
+            <div class="signal-tag bullish" id="signal-usd">BULLISH CATALYST</div>
+          </div>
+          <div class="asset-price-box">
+            <div class="asset-price" id="usd-price">103.42</div>
+            <div class="asset-change negative" id="usd-change">-0.48 (-0.46%)</div>
+          </div>
+          <div class="asset-details-grid">
+            <div>
+              <span class="detail-label">Correlation</span>
+              <span class="detail-value negative">-0.83 (Strong Inverse)</span>
+            </div>
+            <div>
+              <span class="detail-label">Driver</span>
+              <span class="detail-value">Purchasing Power Hurdle</span>
+            </div>
+          </div>
+          <div class="economic-rationale-box">
+            <span class="rationale-heading">The USD Inverse Pattern:</span>
+            When USD weakens, gold becomes significantly cheaper in foreign currencies (EUR, INR), driving massive global demand.
+          </div>
+        </div>
+
+        <!-- PILLAR 3: TREASURY YIELDS -->
+        <div class="asset-card">
+          <div class="asset-top">
+            <div class="asset-id">
+              <span class="asset-symbol">^TNX (10Y) <span class="driver-tier-tag core">CORE 8.5/10</span></span>
+              <span class="asset-name">US 10Y Treasury Yield</span>
+            </div>
+            <div class="signal-tag bullish" id="signal-yields">BULLISH CATALYST</div>
+          </div>
+          <div class="asset-price-box">
+            <div class="asset-price" id="yields-price">4.18% <span class="sub-yield">(Real: 1.84%)</span></div>
+            <div class="asset-change negative" id="yields-change">-0.06 (-1.42%)</div>
+          </div>
+          <div class="asset-details-grid">
+            <div>
+              <span class="detail-label">Correlation</span>
+              <span class="detail-value negative">-0.79 (Opportunity Cost)</span>
+            </div>
+            <div>
+              <span class="detail-label">Driver</span>
+              <span class="detail-value">Real Yield Carry</span>
+            </div>
+          </div>
+          <div class="economic-rationale-box">
+            <span class="rationale-heading">The Opportunity Cost:</span>
+            Gold pays no yield. When real bond yields fall, holding bonds loses appeal and capital floods into gold for unencumbered upside.
+          </div>
+        </div>
+
+        <!-- PILLAR 4: VIX MARKET VOLATILITY (SECONDARY CONTEXT) -->
+        <div class="asset-card secondary-context-card">
+          <div class="asset-top">
+            <div class="asset-id">
+              <span class="asset-symbol">^VIX <span class="driver-tier-tag secondary">4.5/10 CONTEXT</span></span>
+              <span class="asset-name">CBOE Volatility Index</span>
+            </div>
+            <div class="signal-tag neutral" id="signal-vix">SECONDARY CONTEXT</div>
+          </div>
+          <div class="asset-price-box">
+            <div class="asset-price" id="vix-price">19.85</div>
+            <div class="asset-change positive" id="vix-change">+1.95 (+10.89%)</div>
+          </div>
+          <div class="asset-details-grid">
+            <div>
+              <span class="detail-label">Correlation</span>
+              <span class="detail-value positive">+0.67 (Safe Haven)</span>
+            </div>
+            <div>
+              <span class="detail-label">Driver</span>
+              <span class="detail-value">Geopolitical & Equity Panic</span>
+            </div>
+          </div>
+          <div class="economic-rationale-box">
+            <span class="rationale-heading">The Safe Haven Effect:</span>
+            Stock market sell-offs and geopolitical crises spark capital flight from equities into gold to insulate wealth against catastrophe.
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 6: VISUAL ANALYSIS HUB (TABS) -->
+      <!-- ============================================ -->
+      <section class="card visual-hub-card">
+        <div class="card-header hub-header">
+          <div class="tab-controls">
+            <button class="tab-btn active" data-tab="tab-overlay">Multi-Asset Normalization</button>
+            <button class="tab-btn" data-tab="tab-radar">Macro Radar Alignment</button>
+            <button class="tab-btn" data-tab="tab-heatmap">Correlation Matrix</button>
+            <button class="tab-btn" data-tab="tab-tv">Live TradingView Streams</button>
+          </div>
+          <div class="timeframe-controls" id="overlay-tf-controls">
+            <button class="tf-btn" data-days="7">7D</button>
+            <button class="tf-btn" data-days="14">14D</button>
+            <button class="tf-btn active" data-days="30">30D</button>
+          </div>
+        </div>
+
+        <div class="tab-content-container">
+          <!-- TAB 1: OVERLAY CHART -->
+          <div class="tab-pane active" id="tab-overlay">
+            <div class="chart-wrapper">
+              <canvas id="chart-overlay"></canvas>
+            </div>
+            <div class="chart-legend-custom">
+              <span class="legend-chip gold-chip"><span class="chip-dot"></span> Gold (XAU USD)</span>
+              <span class="legend-chip inr-gold-chip"><span class="chip-dot"></span> Indian Gold (INR)</span>
+              <span class="legend-chip oil-chip"><span class="chip-dot"></span> WTI Crude Oil</span>
+              <span class="legend-chip usd-chip"><span class="chip-dot"></span> US Dollar (DXY)</span>
+              <span class="legend-chip yield-chip"><span class="chip-dot"></span> 10Y Yield</span>
+              <span class="legend-chip vix-chip"><span class="chip-dot"></span> VIX Volatility</span>
+            </div>
+          </div>
+
+          <!-- TAB 2: MACRO RADAR -->
+          <div class="tab-pane" id="tab-radar">
+            <div class="radar-layout">
+              <div class="chart-wrapper radar-chart-wrapper">
+                <canvas id="chart-radar"></canvas>
+              </div>
+              <div class="radar-insights">
+                <h3>Core &ge;8/10 Vector Alignment Diagnostic</h3>
+                <p>Maps the 4 Core Drivers rated <strong>&ge; 8/10</strong> against the theoretical <strong>"Maximum Bullion Breakout Envelope"</strong>:</p>
+                <ul class="radar-bullets">
+                  <li><strong>Spot Gold (9.5/10 | 27.9%):</strong> XAU/USD price vs 20-DMA &amp; 50-DMA momentum trend.</li>
+                  <li><strong>US 10Y Yield (8.5/10 | 25.0%):</strong> Inverted so falling Treasury yields expand breakout score.</li>
+                  <li><strong>USD/INR (8.0/10 | 23.5%):</strong> Rupee depreciation expands landed Indian 22K/24K bullion value.</li>
+                  <li><strong>USD DXY (8.0/10 | 23.5%):</strong> Inverted so softer US Dollar boosts global gold accumulation.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: CORRELATION HEATMAP -->
+          <div class="tab-pane" id="tab-heatmap">
+            <div class="corr-meta-bar" id="corr-meta-label" style="font-size:0.78rem; color:var(--text-muted); margin-bottom:10px;">
+              Empirical 2006–2026 20-Trading-Day Pearson Correlation Matrix (Core &ge; 8/10 Drivers vs MJDTA Indian Gold)
+            </div>
+            <div class="table-container">
+              <table class="correlation-table">
+                <thead>
+                  <tr>
+                    <th>Asset (2006–2026 Empirical)</th>
+                    <th>Gold (XAU)</th>
+                    <th>Indian Gold (MJDTA)</th>
+                    <th>US Dollar (DXY)</th>
+                    <th>US 10Y Yield</th>
+                    <th>USD / INR</th>
+                  </tr>
+                </thead>
+                <tbody id="correlation-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="heatmap-legend">
+              <span>-1.0 (Strong Inverse Correlation)</span>
+              <div class="heatmap-bar"></div>
+              <span>+1.0 (Strong Positive Correlation)</span>
+            </div>
+          </div>
+
+          <!-- TAB 4: TRADINGVIEW LIVE STREAM -->
+          <div class="tab-pane" id="tab-tv">
+            <div class="tv-selector-bar">
+              <button class="tv-pick-btn active" data-symbol="OANDA:XAUUSD">Gold (XAU/USD)</button>
+              <button class="tv-pick-btn" data-symbol="FX_IDC:USDINR">USD / INR (Rupee)</button>
+              <button class="tv-pick-btn" data-symbol="NYMEX:CL1!">WTI Crude (CL)</button>
+              <button class="tv-pick-btn" data-symbol="CAPITALCOM:DXY">US Dollar (DXY)</button>
+              <button class="tv-pick-btn" data-symbol="TVC:US10Y">US 10Y Yield</button>
+              <button class="tv-pick-btn" data-symbol="CBOE:VIX">VIX Volatility</button>
+            </div>
+            <div id="tradingview-widget-wrapper" class="tv-container">
+              <!-- TradingView Widget Injected Here -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 7: INTERACTIVE WHAT-IF SIMULATOR -->
+      <!-- ============================================ -->
+      <section class="card simulator-card">
+        <div class="card-header">
+          <div>
+            <h2 class="section-heading">Core &ge;8/10 Macro Shock Scenario Simulator</h2>
+            <p class="section-sub">Stress-test breakout alignment and projected Indian 22K/24K rates using the 4 Core Drivers (&ge; 8/10)</p>
+          </div>
+          <div class="simulator-presets">
+            <button class="preset-btn" data-scenario="xau-rally">🪙 Global Bull Breakout</button>
+            <button class="preset-btn" data-scenario="rupee-weak">🇮🇳 Rupee Stress (USD/INR 96)</button>
+            <button class="preset-btn" data-scenario="fed-cut">📉 Fed Rate Cuts (10Y 3.5%)</button>
+            <button class="preset-btn" data-scenario="fed-hike">🦅 Aggressive USD &amp; Yields</button>
+            <button class="preset-btn" data-scenario="reset">↺ Reset Live Baseline</button>
+          </div>
+        </div>
+
+        <div class="simulator-body">
+          <div class="sliders-col">
+            <!-- Slider 1: Spot Gold (9.5/10) -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">Global Spot Gold XAU/USD <small>(9.5/10)</small></span>
+                <span class="slider-display" id="sim-gold-val">$3,985</span>
+              </div>
+              <input type="range" min="2500" max="5500" step="25" value="3985" class="custom-slider" id="sim-gold-slider">
+              <div class="slider-range-labels">
+                <span>$2,500</span>
+                <span>$4,000</span>
+                <span>$5,500 (Bull Surge)</span>
+              </div>
+            </div>
+
+            <!-- Slider 2: US Dollar Index DXY (8.0/10) -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">US Dollar Index DXY <small>(8.0/10)</small></span>
+                <span class="slider-display" id="sim-dxy-val">103.0</span>
+              </div>
+              <input type="range" min="90" max="115" step="0.2" value="103.0" class="custom-slider" id="sim-dxy-slider">
+              <div class="slider-range-labels">
+                <span>90.0 (Soft USD)</span>
+                <span>102.0</span>
+                <span>115.0 (Strong USD)</span>
+              </div>
+            </div>
+
+            <!-- Slider 3: US 10Y Treasury Yield (8.5/10) -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">US 10Y Treasury Yield <small>(8.5/10)</small></span>
+                <span class="slider-display" id="sim-yield-val">5.00%</span>
+              </div>
+              <input type="range" min="1.5" max="6.5" step="0.05" value="5.00" class="custom-slider" id="sim-yield-slider">
+              <div class="slider-range-labels">
+                <span>1.50% (Dovish)</span>
+                <span>4.00%</span>
+                <span>6.50% (Tight Yields)</span>
+              </div>
+            </div>
+
+            <!-- Slider 4: USD / INR Exchange Rate (8.0/10) -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">USD / INR Exchange Rate <small>(8.0/10)</small></span>
+                <span class="slider-display" id="sim-usdinr-val">₹93.70</span>
+              </div>
+              <input type="range" min="75" max="105" step="0.25" value="93.70" class="custom-slider" id="sim-usdinr-slider">
+              <div class="slider-range-labels">
+                <span>₹75 (Strong INR)</span>
+                <span>₹90</span>
+                <span>₹105 (Rupee Weakness)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Simulator Results Box -->
+          <div class="simulator-result-box">
+            <div class="result-title">Projected Gold Breakout Vector</div>
+            
+            <div class="result-highlight-card">
+              <div class="res-sub">Simulated Breakout Score</div>
+              <div class="res-main-score" id="sim-res-score">84 <span class="res-small">/ 100</span></div>
+              <div class="res-tag" id="sim-res-tag">PERFECT STORM ALIGNMENT</div>
+            </div>
+
+            <div class="result-stats-table">
+              <div class="res-row">
+                <span>Projected Global Spot (USD)</span>
+                <strong class="res-val gold" id="sim-proj-price">$2,864.50</strong>
+              </div>
+              <div class="res-row">
+                <span>Projected Indian 24K (10g)</span>
+                <strong class="res-val inr-gold" id="sim-proj-inr-24k">₹84,650</strong>
+              </div>
+              <div class="res-row">
+                <span>Projected Indian 22K (10g)</span>
+                <strong class="res-val" id="sim-proj-inr-22k">₹77,600</strong>
+              </div>
+              <div class="res-row">
+                <span>Estimated Macro Impact</span>
+                <strong class="res-val positive" id="sim-est-impact">+5.37%</strong>
+              </div>
+            </div>
+
+            <div class="res-explanation" id="sim-res-explanation">
+              Simultaneous USD depreciation and real yield decline drastically remove the opportunity cost of holding gold, while surging crude oil creates strong inflation-hedging inflows.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- SECTION 8: MACRO PLAYBOOK & THEORY GUIDE -->
+      <!-- ============================================ -->
+      <section class="card playbook-card">
+        <div class="card-header">
+          <h2 class="section-heading">Core &ge; 8/10 Macro Driver Playbook</h2>
+          <span class="badge-analyst">2006–2026 VALIDATED</span>
+        </div>
+        <div class="playbook-grid">
+          <div class="playbook-item">
+            <div class="playbook-icon">🪙</div>
+            <h3>1. Spot Gold Trend (9.5/10 • 27.9%)</h3>
+            <p><strong>20-Yr Level r = +0.98 vs INR:</strong> XAU/USD sets global price discovery. Sustained breaks above its 20-DMA and 50-DMA establish institutional trend support and drive MCX/Chennai retail pricing.</p>
+          </div>
+          <div class="playbook-item">
+            <div class="playbook-icon">📉</div>
+            <h3>2. US 10Y Yield (8.5/10 • 25.0%)</h3>
+            <p><strong>Opportunity Cost (20D r = -0.26):</strong> Non-yielding gold competes directly against US Treasury yields. When 10Y yields fall below rolling averages, sovereign bond carry shrinks and gold rallies.</p>
+          </div>
+          <div class="playbook-item">
+            <div class="playbook-icon">🇮🇳</div>
+            <h3>3. USD / INR Exchange (8.0/10 • 23.5%)</h3>
+            <p><strong>20-Yr Level r = +0.84 vs INR:</strong> India imports ~90% of gold demand. Any Rupee depreciation (rising USD/INR) directly elevates landed domestic INR 22K &amp; 24K rates regardless of global sideways chop.</p>
+          </div>
+          <div class="playbook-item">
+            <div class="playbook-icon">💵</div>
+            <h3>4. US Dollar DXY (8.0/10 • 23.5%)</h3>
+            <p><strong>20D Return r = -0.45 vs XAU:</strong> Priced in dollars worldwide, a falling greenback cuts gold’s local cost in Europe and Asia, fueling broad international physical accumulation.</p>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <div>AURUM MATRIX &copy; 2026 // Personal Global Macro & Indian Retail Bullion Terminal</div>
+      <div class="footer-links">
+        <span>Framework: Core &ge;8/10 Macro Matrix</span>
+        <span>•</span>
+        <span>Google AI Studio Powered</span>
+        <span>•</span>
+        <span>Live Engine Active</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="app.js?v=2.8"></script>
+</body>
+</html>

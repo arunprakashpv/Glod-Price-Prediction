@@ -1,0 +1,383 @@
+{
+  "lastUpdated": "2026-11-14T15:47:29.618Z",
+  "nextUpdate": "2026-11-14T18:47:29.618Z",
+  "intervalHours": 3,
+  "analyst": "AURUM Autonomous 3-Hour Macro Bullion Desk",
+  "updateMethod": "Core >= 8/10 Drivers (XAU/USD 9.5, US10Y 8.5, USD/INR 8.0, DXY 8.0) + MJDTA Technicals",
+  "asOfDate": "2026-11-14",
+  "marketBenchmark": {
+    "retailer": "Active Retail Benchmark",
+    "rate22kPerGram": 12615,
+    "rate22kSovereign": 100920,
+    "rate24k10g": 137620,
+    "rate24k1g": 13762,
+    "usdInr": 94.24,
+    "spotGoldUsd": 3886.76,
+    "landed22kWithDuty": 11767,
+    "macroBreakoutScore": 21,
+    "macroIndicators": {
+      "dxy": 103.41,
+      "usdInr": 94.24,
+      "crudeOil": 88.56,
+      "realYield": 2.79,
+      "nominal10Y": 5.133,
+      "vix": 19.58
+    }
+  },
+  "horizons": {
+    "3d": {
+      "days": 3,
+      "label": "Next 3 Days (Immediate Dip Window)",
+      "direction": "UP_SURGE",
+      "directionTitle": "OVERSOLD BOUNCE WINDOW (ACCUMULATE NOW)",
+      "directionIcon": "📈",
+      "confidencePct": 83,
+      "expected22kRange": "₹12,575 - ₹12,701 / g",
+      "expected22kPerGramLow": 12575,
+      "expected22kPerGramHigh": 12701,
+      "expectedSovereignRange": "₹1,00,600 - ₹1,01,608 (8g)",
+      "expected24k10gRange": "₹1,37,180 - ₹1,38,560",
+      "priceChangeEst": "Projected move between -₹40 and +₹86 per gram",
+      "buyerStrategyAction": "ACCUMULATE AT CURRENT SUPPORT",
+      "savingEstimateSovereign": "Potential dip saving up to ₹320 on 1 Sovereign (8g)",
+      "rationale": "Core >= 8/10 drivers (XAU/USD -3.68% vs 20-DMA, USD/INR -0.36%, DXY +1.29%, 10Y +14 bps) place Spot Gold at $3887/oz and USD/INR at ₹94.24 (duty-paid import parity ~₹11,767/g). MJDTA daily RSI(14) stands at 32.4 vs 20-DMA ₹13,024/g (as of 2026-11-14). Over the next 72 hours, retail rates are modeled within ₹12,575–₹12,701/g.",
+      "shoppingTip": "Oversold/support dynamics limit deeper near-term downside; locking 22K rate-protection or partial coin tranches is favored."
+    },
+    "7d": {
+      "days": 7,
+      "label": "Next 7 Days (Weekly Outlook)",
+      "direction": "RANGEBOUND_ACCUMULATE",
+      "directionTitle": "CONSOLIDATION CORRIDOR (STAGGERED ACCUMULATION)",
+      "directionIcon": "⚖️",
+      "confidencePct": 78,
+      "expected22kRange": "₹12,447 - ₹12,649 / g",
+      "expected22kPerGramLow": 12447,
+      "expected22kPerGramHigh": 12649,
+      "expectedSovereignRange": "₹99,576 - ₹1,01,192 (8g)",
+      "expected24k10gRange": "₹1,35,790 - ₹1,37,990",
+      "priceChangeEst": "Rangebound between -₹168 and +₹34 per gram",
+      "buyerStrategyAction": "STAGGER PURCHASES (50% NOW, 50% ON DIP)",
+      "savingEstimateSovereign": "Reduce timing risk with rupee-cost averaging",
+      "rationale": "Global XAU/USD ($3887/oz) and USD/INR (₹94.24) anchor Indian landed bullion parity while US 10Y yields (5.13%) and DXY (103.41) govern breakout velocity. Expected weekly corridor sits around ₹12,450–₹12,650/g.",
+      "shoppingTip": "Ask your jeweller about advance booking rate-protection plans so you lock today or lower if the rate dips before delivery."
+    },
+    "14d": {
+      "days": 14,
+      "label": "Next 14 Days (Fortnightly)",
+      "direction": "RANGEBOUND_ACCUMULATE",
+      "directionTitle": "COMPETING MACRO FORCES (SELECTIVE ENTRY)",
+      "directionIcon": "📈",
+      "confidencePct": 81,
+      "expected22kRange": "₹12,404 - ₹12,690 / g",
+      "expected22kPerGramLow": 12404,
+      "expected22kPerGramHigh": 12690,
+      "expectedSovereignRange": "₹99,232 - ₹1,01,520 (8g)",
+      "expected24k10gRange": "₹1,35,320 - ₹1,38,440",
+      "priceChangeEst": "Projected move between -₹211 and +₹75 per gram",
+      "buyerStrategyAction": "ACCUMULATE TRANCHES ON WEAKNESS",
+      "savingEstimateSovereign": "Upside range up to +₹600 per Sovereign",
+      "rationale": "With US 10Y Treasury yields at 5.13% (real 2.79%) and DXY at 103.41, any softening in yields/USD or Rupee depreciation above ₹94.24 transmits directly into higher domestic showroom quotes.",
+      "shoppingTip": "If wedding jewellery is needed over the next two weeks, lock orders during intraday dips before any push toward ₹12,900/g."
+    },
+    "30d": {
+      "days": 30,
+      "label": "Next 30 Days (Monthly Outlook)",
+      "direction": "SECULAR_BULLISH",
+      "directionTitle": "STRUCTURAL SUPPORT INTACT (ACCUMULATE ON PULLBACKS)",
+      "directionIcon": "🚀",
+      "confidencePct": 85,
+      "expected22kRange": "₹12,363 - ₹12,838 / g",
+      "expected22kPerGramLow": 12363,
+      "expected22kPerGramHigh": 12838,
+      "expectedSovereignRange": "₹98,904 - ₹1,02,704 (8g)",
+      "expected24k10gRange": "₹1,34,870 - ₹1,40,050",
+      "priceChangeEst": "Projected 30-day shift between -₹252 and +₹223 per gram",
+      "buyerStrategyAction": "LONG-TERM BUY BIAS ACTIVE",
+      "savingEstimateSovereign": "Potential appreciation up to +₹1,784 per Sovereign",
+      "rationale": "The Core >= 8/10 Macro Matrix (Score: 21/100) synthesizes XAU/USD trend ($3887/oz), US 10Y yields (5.13%), USD/INR (₹94.24), and DXY (103.41). Pullbacks toward ₹12,450/g offer favorable medium-term risk/reward.",
+      "shoppingTip": "For long-term coin/bar investors, systematic accumulation on multi-day pullbacks beats chasing green spikes."
+    }
+  },
+  "history": [
+    {
+      "timestamp": "2026-11-14T15:47:29.618Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,575 - ₹12,701",
+      "call7d": "₹12,447 - ₹12,649",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T15:32:29.253Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,574 - ₹12,701",
+      "call7d": "₹12,447 - ₹12,649",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T15:32:22.888Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,566 - ₹12,692",
+      "call7d": "₹12,440 - ₹12,642",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T15:17:26.999Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,572 - ₹12,698",
+      "call7d": "₹12,444 - ₹12,646",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T15:02:29.328Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,574 - ₹12,701",
+      "call7d": "₹12,447 - ₹12,649",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T14:47:34.064Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,568 - ₹12,694",
+      "call7d": "₹12,442 - ₹12,643",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T14:32:28.886Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,576 - ₹12,702",
+      "call7d": "₹12,449 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T14:17:29.336Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,576 - ₹12,702",
+      "call7d": "₹12,449 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T14:02:31.278Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,566 - ₹12,692",
+      "call7d": "₹12,441 - ₹12,643",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T13:47:31.131Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,566 - ₹12,692",
+      "call7d": "₹12,441 - ₹12,643",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T13:32:29.087Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,576 - ₹12,702",
+      "call7d": "₹12,449 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T13:17:29.659Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,576 - ₹12,703",
+      "call7d": "₹12,450 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T13:02:29.416Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,576 - ₹12,702",
+      "call7d": "₹12,449 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T12:47:29.159Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,576 - ₹12,702",
+      "call7d": "₹12,449 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T12:32:40.247Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,565 - ₹12,691",
+      "call7d": "₹12,440 - ₹12,642",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T12:32:22.833Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,568 - ₹12,694",
+      "call7d": "₹12,443 - ₹12,645",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T08:52:47.910Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,574 - ₹12,700",
+      "call7d": "₹12,448 - ₹12,650",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T08:37:48.738Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,575 - ₹12,701",
+      "call7d": "₹12,449 - ₹12,651",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T08:22:47.663Z",
+      "grtRate22k": 12615,
+      "score": 22,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,574 - ₹12,700",
+      "call7d": "₹12,448 - ₹12,649",
+      "status": "VERIFIED_ACTIVE"
+    },
+    {
+      "timestamp": "2026-11-14T08:07:47.137Z",
+      "grtRate22k": 12615,
+      "score": 21,
+      "macroSnapshot": {
+        "dxy": 103.41,
+        "crude": 88.56,
+        "realYield": 2.79,
+        "vix": 19.58
+      },
+      "call3d": "₹12,572 - ₹12,698",
+      "call7d": "₹12,445 - ₹12,646",
+      "status": "VERIFIED_ACTIVE"
+    }
+  ]
+}
