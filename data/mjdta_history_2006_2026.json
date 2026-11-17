@@ -3,18 +3,18 @@
   "sourceUrl": "https://www.thejewellersassociation.org",
   "association": "MJDTA (Madras Jewellers & Diamond Traders’ Association)",
   "jurisdiction": "Chennai / Tamil Nadu (Official Benchmark for GRT Jewellers, Lalitha, NAC)",
-  "retrievedAt": "2026-11-14T15:47:23.721Z",
-  "timeframe": "2006-01-02 to 2026-11-14",
+  "retrievedAt": "2026-11-17T06:35:09.499Z",
+  "timeframe": "2006-01-02 to 2026-11-17",
   "metrics": {
-    "totalIntradayQuotes": 11624,
-    "totalTradingDays": 6429,
+    "totalIntradayQuotes": 11626,
+    "totalTradingDays": 6431,
     "startRate22k_1g": 711,
     "startDate": "2006-01-02",
-    "currentRate22k_1g": 12615,
-    "currentDate": "2026-11-14",
-    "overallMultiplier": 17.74,
-    "overallAppreciationPct": 1674.26,
-    "cagrPct": 14.78
+    "currentRate22k_1g": 12470,
+    "currentDate": "2026-11-17",
+    "overallMultiplier": 17.54,
+    "overallAppreciationPct": 1653.87,
+    "cagrPct": 14.71
   },
   "dailySeries": [
     {
@@ -102599,7 +102599,7 @@
       "sma200": 13872
     },
     {
-      "sno": 3,
+      "sno": 1,
       "dateRaw": "14/11/2026 9:32 am",
       "date": "2026-11-14",
       "gold22k_1g": 12615,
@@ -102613,6 +102613,38 @@
       "sma20": 13024,
       "sma50": 13469,
       "sma200": 13868
+    },
+    {
+      "sno": 1,
+      "dateRaw": "16/11/2026 9:37 am",
+      "date": "2026-11-16",
+      "gold22k_1g": 12540,
+      "gold22k_8g": 100320,
+      "gold22k_10g": 125400,
+      "gold24k_1g": 13680,
+      "silver_1g": 190,
+      "silver_1kg": 0,
+      "change": -75,
+      "pctChange": -0.59,
+      "sma20": 12998,
+      "sma50": 13437,
+      "sma200": 13864
+    },
+    {
+      "sno": 2,
+      "dateRaw": "17/11/2026 9:42 am",
+      "date": "2026-11-17",
+      "gold22k_1g": 12470,
+      "gold22k_8g": 99760,
+      "gold22k_10g": 124700,
+      "gold24k_1g": 13604,
+      "silver_1g": 190,
+      "silver_1kg": 0,
+      "change": -70,
+      "pctChange": -0.56,
+      "sma20": 12968,
+      "sma50": 13401,
+      "sma200": 13858
     }
   ]
 }

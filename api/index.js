@@ -1,9 +1,32 @@
 /**
- * Vercel Serverless Function entry point
- * Delegates incoming API requests to AURUM MATRIX server
+ * Vercel Serverless Function Catch-All Entry Point
+ * Routes requests to AURUM MATRIX request handler
  */
-const server = require('../server.js');
+const { handleRequest } = require('../server.js');
 
-module.exports = (req, res) => {
-  return server.emit('request', req, res);
+module.exports = async (req, res) => {
+  try {
+    // If Vercel rewrote the path into query parameter 'match'
+    let matchPath = null;
+    if (req.query && req.query.match) {
+      matchPath = Array.isArray(req.query.match) ? req.query.match.join('/') : req.query.match;
+    } else if (req.url && req.url.includes('match=')) {
+      try {
+        const u = new URL(req.url, 'http://localhost');
+        const m = u.searchParams.get('match');
+        if (m) matchPath = m;
+      } catch (e) {}
+    }
+
+    if (matchPath) {
+      req.url = '/api/' + matchPath.replace(/^\/+/, '');
+    }
+    await handleRequest(req, res);
+  } catch (err) {
+    console.error('[Vercel Serverless Handler Error]:', err);
+    if (!res.headersSent) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message, stack: err.stack }));
+    }
+  }
 };

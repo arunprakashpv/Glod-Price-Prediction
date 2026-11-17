@@ -664,12 +664,15 @@ function generateAndSaveForecast(base22kRate = currentBenchmark22kRate) {
   }
 
   // Ensure data dir exists
-  const dataDir = path.dirname(FORECAST_FILE);
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
+  try {
+    const dataDir = path.dirname(FORECAST_FILE);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(FORECAST_FILE, JSON.stringify(forecastData, null, 2), 'utf8');
+  } catch (e) {
+    // Read-only filesystem in serverless environments (Vercel)
   }
-
-  fs.writeFileSync(FORECAST_FILE, JSON.stringify(forecastData, null, 2), 'utf8');
   console.log(`[AURUM 3-HOUR ENGINE] Forecast updated at ${now.toLocaleTimeString()} (Next: ${nextCheck.toLocaleTimeString()})`);
   return forecastData;
 }
@@ -761,17 +764,19 @@ async function syncAllLiveFeeds() {
   return results;
 }
 
-// Autonomous startup sync (Global Macro + MJDTA Missed Dates + Top 3 Org Rates)
-syncAllLiveFeeds().catch(e => console.warn('[Startup Sync Warning]:', e.message));
+// Autonomous background sync (Only in standalone node environment, not in Vercel serverless)
+if (!process.env.VERCEL) {
+  syncAllLiveFeeds().catch(e => console.warn('[Startup Sync Warning]:', e.message));
 
-const ORG_SYNC_INTERVAL_MS = 15 * 60 * 1000;
-setInterval(() => {
-  console.log('[AURUM ENGINE] Running scheduled 15-minute live macro, history & org sync...');
-  syncAllLiveFeeds().catch(e => console.warn('[Scheduled Sync Warning]:', e.message));
-}, ORG_SYNC_INTERVAL_MS);
+  const ORG_SYNC_INTERVAL_MS = 15 * 60 * 1000;
+  setInterval(() => {
+    console.log('[AURUM ENGINE] Running scheduled 15-minute live macro, history & org sync...');
+    syncAllLiveFeeds().catch(e => console.warn('[Scheduled Sync Warning]:', e.message));
+  }, ORG_SYNC_INTERVAL_MS);
+}
 
-// HTTP Server
-const server = http.createServer(async (req, res) => {
+// HTTP Server Request Handler
+async function handleRequest(req, res) {
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
 
@@ -1255,7 +1260,9 @@ const server = http.createServer(async (req, res) => {
       res.end(content);
     }
   });
-});
+}
+
+const server = http.createServer(handleRequest);
 
 let currentPort = PORT;
 
@@ -1287,4 +1294,6 @@ if (require.main === module) {
   startServer(currentPort);
 }
 
-module.exports = server;
+module.exports = handleRequest;
+module.exports.server = server;
+module.exports.handleRequest = handleRequest;

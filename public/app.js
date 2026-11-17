@@ -21,7 +21,7 @@ try {
 } catch (e) {}
 
 // Jeweller 22K Rate Benchmark (Updated dynamically from Server & Live Association Feeds)
-let active22kRate = 13150;
+let active22kRate = 12470;
 try {
   const savedRate = localStorage.getItem('aurum_active_22k_rate');
   if (savedRate && parseFloat(savedRate) > 1000) {
@@ -56,7 +56,7 @@ let localMarketState = {
   usd_inr: {
     symbol: 'USD/INR',
     name: 'USD to Indian Rupee',
-    price: 84.22,
+    price: 93.64,
     change24h: 0.08,
     changePercent24h: 0.10,
     unit: 'INR per USD'
@@ -554,7 +554,7 @@ function renderDashboard(data) {
   const { market, india, retailAdvice, breakout, correlationMatrix, historical } = data;
 
   // A. Indian Retail Pricing Desk (Calibrated to active Jeweller Rate, e.g. GRT ₹13,385/g)
-  const calibratedIndia = calculateIndianPricesLocal(market.gold.price, market.usd_inr?.price || 84.22, active22kRate);
+  const calibratedIndia = calculateIndianPricesLocal(market.gold.price, market.usd_inr?.price || 93.64, active22kRate);
   updateIndianRatesDisplay(calibratedIndia);
 
   // Retail Action Badge & Guidance
