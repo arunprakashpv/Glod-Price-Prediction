@@ -514,9 +514,8 @@ async function fetchIndicatorData() {
     if (!res.ok) throw new Error('API offline');
     const data = await res.json();
     dashboardData = data;
-    if (data.india && data.india.benchmark22kRate) {
+    if (data.india && data.india.benchmark22kRate && !localStorage.getItem('aurum_active_22k_rate')) {
       active22kRate = data.india.benchmark22kRate;
-      try { localStorage.setItem('aurum_active_22k_rate', active22kRate); } catch (e) {}
     }
     renderDashboard(data);
   } catch (err) {
@@ -2480,11 +2479,12 @@ async function syncTop3LiveRates() {
         setTimeout(() => c.classList.remove('card-updated-flash'), 1800);
       });
 
-      const mjdta = data.data.organisations.find(o => o.id === 'mjdta')?.rate22k_1g || 13140;
-      const ibja = data.data.organisations.find(o => o.id === 'ibja')?.rate22k_1g || 13305;
-      const jab = data.data.organisations.find(o => o.id === 'jab')?.rate22k_1g || 13545;
+      const grt = data.data?.organisations?.find(o => o.id === 'grt')?.rate22k_1g || active22kRate;
+      const mjdta = data.data?.organisations?.find(o => o.id === 'mjdta')?.rate22k_1g || active22kRate;
+      const ibja = data.data?.organisations?.find(o => o.id === 'ibja')?.rate22k_1g || 12293;
+      const jab = data.data?.organisations?.find(o => o.id === 'jab')?.rate22k_1g || 12575;
 
-      showUpdateToast(`⚡ Top 3 Associations Synced Live! MJDTA: ₹${mjdta.toLocaleString('en-IN')}/g | IBJA: ₹${ibja.toLocaleString('en-IN')}/g | JAB: ₹${jab.toLocaleString('en-IN')}/g`);
+      showUpdateToast(`⚡ Bullion Rates Synced Live! GRT: ₹${grt.toLocaleString('en-IN')}/g | MJDTA: ₹${mjdta.toLocaleString('en-IN')}/g | IBJA: ₹${ibja.toLocaleString('en-IN')}/g | JAB: ₹${jab.toLocaleString('en-IN')}/g`);
     } else {
       showUpdateToast('Live sync completed with baseline verified quotes.');
     }

@@ -922,18 +922,21 @@ async function handleRequest(req, res) {
     return;
   }
 
-  // API: Manually / Automatically Sync Top 3 Live Rates, Missed MJDTA Dates & Global Macro
+  // API: Manually Sync Live Bullion Rates (Fast, resilient for serverless & local)
   if (pathname === '/api/organisations/sync' && req.method === 'POST') {
     try {
-      const syncRes = await syncAllLiveFeeds();
-      const updated = orgService.getOrganisationsData();
+      const updated = await orgService.syncTop3Organisations();
+      const active = updated?.organisations?.find(o => o.id === updated.activeBenchmarkId) || updated?.organisations?.[0];
+      if (active && active.rate22k_1g) {
+        currentBenchmark22kRate = active.rate22k_1g;
+      }
+      currentForecastCache = generateAndSaveForecast(currentBenchmark22kRate);
       const updatedIndian = calculateIndianPrices(marketState.gold.price, marketState.usd_inr.price, currentBenchmark22kRate);
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
         success: true,
-        message: 'Live macro feeds, missed MJDTA dates & bullion associations synced',
+        message: 'Live bullion association rates synced successfully',
         data: updated,
-        historySync: syncRes.history || null,
         currentBenchmark22kRate,
         india: updatedIndian
       }));

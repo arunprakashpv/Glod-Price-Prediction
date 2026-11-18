@@ -1,6 +1,8 @@
 const { handleRequest } = require('../server.js');
 
 module.exports = async (req, res) => {
-  req.url = '/api/benchmark' + (req.url.includes('?') ? '?' + req.url.split('?')[1] : '');
+  if (!req.url.startsWith('/api/benchmark')) {
+    req.url = '/api/benchmark' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+  }
   return handleRequest(req, res);
 };
