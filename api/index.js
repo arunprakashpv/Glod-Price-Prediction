@@ -19,7 +19,14 @@ module.exports = async (req, res) => {
     }
 
     if (matchPath) {
-      req.url = '/api/' + matchPath.replace(/^\/+/, '');
+      try {
+        const u = new URL(req.url, 'http://localhost');
+        u.searchParams.delete('match');
+        const remainingQuery = u.searchParams.toString();
+        req.url = '/api/' + matchPath.replace(/^\/+/, '') + (remainingQuery ? '?' + remainingQuery : '');
+      } catch (e) {
+        req.url = '/api/' + matchPath.replace(/^\/+/, '');
+      }
     }
     await handleRequest(req, res);
   } catch (err) {
