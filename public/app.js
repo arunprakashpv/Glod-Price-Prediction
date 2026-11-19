@@ -1305,10 +1305,13 @@ async function forceRefreshForecast() {
     btn.classList.add('btn-updating');
   }
 
-  // 1. Advance market ticks and refresh macro indicator data
+  // 1. Advance market ticks and refresh macro indicator data & organisation rates
   try {
     tickLocalMarket();
-    await fetchIndicatorData();
+    await Promise.allSettled([
+      fetchIndicatorData(),
+      fetchTop3Organisations()
+    ]);
   } catch (e) {}
 
   // 2. Fetch fresh forecast from server (or try alternate ports / fallback)
@@ -2288,6 +2291,14 @@ async function fetchTop3Organisations() {
       const data = await res.json();
       top3OrganisationsData = data;
       renderTop3OrganisationsUI(data);
+
+      const activeId = data.activeBenchmarkId || 'grt';
+      const activeOrg = data.organisations?.find(o => o.id === activeId) || data.organisations?.[0];
+      if (activeOrg && activeOrg.rate22k_1g) {
+        active22kRate = activeOrg.rate22k_1g;
+        try { localStorage.setItem('aurum_active_22k_rate', active22kRate); } catch (e) {}
+        refreshIndianRatesUI();
+      }
     }
   } catch (err) {
     console.warn('Could not fetch top 3 organisations:', err.message);

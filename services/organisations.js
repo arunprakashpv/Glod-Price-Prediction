@@ -19,6 +19,7 @@ const historySync = require('./history_sync');
 const db = require('./db');
 
 const ORG_CACHE_FILE = path.join(__dirname, '..', 'data', 'organisations_cache.json');
+const TMP_ORG_CACHE_FILE = path.join('/tmp', 'organisations_cache.json');
 
 // Fallback baseline cache calibrated to active market quotes
 let organisationsCache = {
@@ -127,17 +128,32 @@ function saveOrganisationsCache() {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(ORG_CACHE_FILE, JSON.stringify(organisationsCache, null, 2), 'utf8');
   } catch (e) {
-    console.warn('[Org Cache Save Warning]:', e.message);
+    // Read-only filesystem in serverless environments (Vercel)
   }
+
+  try {
+    fs.writeFileSync(TMP_ORG_CACHE_FILE, JSON.stringify(organisationsCache, null, 2), 'utf8');
+  } catch (e) {}
+
   // Asynchronously sync to Lakebase Postgres (Neon)
   db.saveOrganisationsData(organisationsCache).catch(err => {
     console.warn('[Neon Org Sync Warning]:', err.message);
   });
 }
 
-// Restore persisted live organisation cache on startup from Neon Lakebase Postgres (with local fallback)
+// Restore persisted live organisation cache on startup from /tmp, local file, or Neon Lakebase Postgres
 try {
-  if (fs.existsSync(ORG_CACHE_FILE)) {
+  let restored = false;
+  if (fs.existsSync(TMP_ORG_CACHE_FILE)) {
+    try {
+      const persisted = JSON.parse(fs.readFileSync(TMP_ORG_CACHE_FILE, 'utf8'));
+      if (persisted && Array.isArray(persisted.organisations) && persisted.organisations.length === 4) {
+        organisationsCache = persisted;
+        restored = true;
+      }
+    } catch (e) {}
+  }
+  if (!restored && fs.existsSync(ORG_CACHE_FILE)) {
     const persisted = JSON.parse(fs.readFileSync(ORG_CACHE_FILE, 'utf8'));
     if (persisted && Array.isArray(persisted.organisations) && persisted.organisations.length === 4) {
       organisationsCache = persisted;
@@ -461,6 +477,14 @@ async function syncTop3Organisations() {
 }
 
 function getOrganisationsData() {
+  try {
+    if (fs.existsSync(TMP_ORG_CACHE_FILE)) {
+      const tmpData = JSON.parse(fs.readFileSync(TMP_ORG_CACHE_FILE, 'utf8'));
+      if (tmpData && tmpData.lastUpdated && (!organisationsCache.lastUpdated || new Date(tmpData.lastUpdated) > new Date(organisationsCache.lastUpdated))) {
+        organisationsCache = tmpData;
+      }
+    }
+  } catch (e) {}
   return organisationsCache;
 }
 
@@ -481,5 +505,7 @@ function setActiveBenchmark(orgId) {
 module.exports = {
   syncTop3Organisations,
   getOrganisationsData,
-  setActiveBenchmark
+  setActiveBenchmark,
+  TMP_ORG_CACHE_FILE,
+  ORG_CACHE_FILE
 };

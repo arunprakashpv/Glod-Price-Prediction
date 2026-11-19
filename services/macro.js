@@ -11,6 +11,8 @@ const db = require('./db');
 
 const MACRO_CACHE_FILE = path.join(__dirname, '..', 'data', 'macro_live.json');
 const MACRO_HISTORY_FILE = path.join(__dirname, '..', 'data', 'macro_history_2006_2026.json');
+const TMP_MACRO_CACHE = path.join('/tmp', 'macro_live.json');
+const TMP_MACRO_HISTORY = path.join('/tmp', 'macro_history_2006_2026.json');
 
 const CORE_FACTOR_WEIGHTS = {
   gold: 9.5,
@@ -904,9 +906,17 @@ async function syncLiveMacro() {
     historical
   };
 
-  const dir = path.dirname(MACRO_CACHE_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(MACRO_CACHE_FILE, JSON.stringify(payload, null, 2), 'utf8');
+  try {
+    const dir = path.dirname(MACRO_CACHE_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(MACRO_CACHE_FILE, JSON.stringify(payload, null, 2), 'utf8');
+  } catch (e) {
+    // Read-only filesystem in serverless environments (Vercel)
+  }
+
+  try {
+    fs.writeFileSync(TMP_MACRO_CACHE, JSON.stringify(payload, null, 2), 'utf8');
+  } catch (e) {}
 
   // Asynchronously persist to Lakebase Postgres (Neon)
   db.setKv('macro_live', payload).catch(err => {
@@ -920,6 +930,12 @@ let _histMacroCache = null;
 
 function loadHistoricalMacro() {
   if (_histMacroCache) return _histMacroCache;
+  try {
+    if (fs.existsSync(TMP_MACRO_HISTORY)) {
+      _histMacroCache = JSON.parse(fs.readFileSync(TMP_MACRO_HISTORY, 'utf8'));
+      return _histMacroCache;
+    }
+  } catch (e) {}
   try {
     if (fs.existsSync(MACRO_HISTORY_FILE)) {
       _histMacroCache = JSON.parse(fs.readFileSync(MACRO_HISTORY_FILE, 'utf8'));
@@ -1140,15 +1156,29 @@ async function syncHistoricalMacroSince2006() {
     dailySeries
   };
 
-  const dir = path.dirname(MACRO_HISTORY_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(MACRO_HISTORY_FILE, JSON.stringify(payload), 'utf8');
+  try {
+    const dir = path.dirname(MACRO_HISTORY_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(MACRO_HISTORY_FILE, JSON.stringify(payload), 'utf8');
+  } catch (e) {
+    // Read-only filesystem in serverless environments (Vercel)
+  }
+
+  try {
+    fs.writeFileSync(TMP_MACRO_HISTORY, JSON.stringify(payload), 'utf8');
+  } catch (e) {}
+
   _histMacroCache = payload;
 
   return payload;
 }
 
 function loadMacroCache() {
+  try {
+    if (fs.existsSync(TMP_MACRO_CACHE)) {
+      return JSON.parse(fs.readFileSync(TMP_MACRO_CACHE, 'utf8'));
+    }
+  } catch (e) {}
   try {
     if (fs.existsSync(MACRO_CACHE_FILE)) {
       return JSON.parse(fs.readFileSync(MACRO_CACHE_FILE, 'utf8'));

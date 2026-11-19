@@ -13,6 +13,25 @@ const { execFile } = require('child_process');
 const db = require('./db');
 
 const HISTORY_FILE = path.join(__dirname, '..', 'data', 'mjdta_history_2006_2026.json');
+const TMP_HISTORY_FILE = path.join('/tmp', 'mjdta_history_2006_2026.json');
+
+function loadCurrentHistoryDataset() {
+  try {
+    if (fs.existsSync(TMP_HISTORY_FILE)) {
+      const raw = fs.readFileSync(TMP_HISTORY_FILE, 'utf8');
+      const ds = JSON.parse(raw);
+      if (ds && Array.isArray(ds.dailySeries) && ds.dailySeries.length > 0) {
+        return ds;
+      }
+    }
+  } catch (e) {}
+
+  if (fs.existsSync(HISTORY_FILE)) {
+    const raw = fs.readFileSync(HISTORY_FILE, 'utf8');
+    return JSON.parse(raw);
+  }
+  throw new Error('Historical dataset mjdta_history_2006_2026.json not found');
+}
 
 function requestViaCurl(url, timeoutMs = 15000) {
   return new Promise((resolve, reject) => {
@@ -207,12 +226,7 @@ function recalculateSeriesMetrics(dailySeries) {
 }
 
 async function syncMissedDates() {
-  if (!fs.existsSync(HISTORY_FILE)) {
-    throw new Error('Historical dataset mjdta_history_2006_2026.json not found');
-  }
-
-  const raw = fs.readFileSync(HISTORY_FILE, 'utf8');
-  const dataset = JSON.parse(raw);
+  const dataset = loadCurrentHistoryDataset();
   const existingSeries = Array.isArray(dataset.dailySeries) ? dataset.dailySeries : [];
 
   const todayIst = getIstTodayParts();
@@ -290,7 +304,19 @@ async function syncMissedDates() {
     dailySeries: mergedSeries
   };
 
-  fs.writeFileSync(HISTORY_FILE, JSON.stringify(updatedPayload, null, 2), 'utf8');
+  try {
+    const dir = path.dirname(HISTORY_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(HISTORY_FILE, JSON.stringify(updatedPayload, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('[History Sync EROFS - saving to /tmp]:', err.message);
+  }
+
+  try {
+    fs.writeFileSync(TMP_HISTORY_FILE, JSON.stringify(updatedPayload, null, 2), 'utf8');
+  } catch (tmpErr) {
+    console.warn('[History Sync /tmp write warning]:', tmpErr.message);
+  }
 
   // Asynchronously persist new/updated rows to Lakebase Postgres (Neon)
   if (addedDates.length > 0 || updatedDates.length > 0) {
@@ -318,5 +344,8 @@ module.exports = {
   syncMissedDates,
   fetchRangeAllPages,
   parseMjdtaTimestamp,
-  getIstTodayParts
+  getIstTodayParts,
+  loadCurrentHistoryDataset,
+  TMP_HISTORY_FILE,
+  HISTORY_FILE
 };

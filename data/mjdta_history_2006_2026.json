@@ -3,18 +3,18 @@
   "sourceUrl": "https://www.thejewellersassociation.org",
   "association": "MJDTA (Madras Jewellers & Diamond Traders’ Association)",
   "jurisdiction": "Chennai / Tamil Nadu (Official Benchmark for GRT Jewellers, Lalitha, NAC)",
-  "retrievedAt": "2026-11-17T06:35:09.499Z",
-  "timeframe": "2006-01-02 to 2026-11-17",
+  "retrievedAt": "2026-11-19T04:51:38.268Z",
+  "timeframe": "2006-01-02 to 2026-11-19",
   "metrics": {
-    "totalIntradayQuotes": 11626,
-    "totalTradingDays": 6431,
+    "totalIntradayQuotes": 11628,
+    "totalTradingDays": 6433,
     "startRate22k_1g": 711,
     "startDate": "2006-01-02",
-    "currentRate22k_1g": 12470,
-    "currentDate": "2026-11-17",
-    "overallMultiplier": 17.54,
-    "overallAppreciationPct": 1653.87,
-    "cagrPct": 14.71
+    "currentRate22k_1g": 11980,
+    "currentDate": "2026-11-19",
+    "overallMultiplier": 16.85,
+    "overallAppreciationPct": 1584.95,
+    "cagrPct": 14.48
   },
   "dailySeries": [
     {
@@ -102645,6 +102645,38 @@
       "sma20": 12968,
       "sma50": 13401,
       "sma200": 13858
+    },
+    {
+      "sno": 3,
+      "dateRaw": "18/11/2026 10:44 am",
+      "date": "2026-11-18",
+      "gold22k_1g": 12215,
+      "gold22k_8g": 97720,
+      "gold22k_10g": 122150,
+      "gold24k_1g": 13325,
+      "silver_1g": 185,
+      "silver_1kg": 0,
+      "change": -255,
+      "pctChange": -2.04,
+      "sma20": 12924,
+      "sma50": 13359,
+      "sma200": 13850
+    },
+    {
+      "sno": 4,
+      "dateRaw": "19/11/2026 9:37 am",
+      "date": "2026-11-19",
+      "gold22k_1g": 11980,
+      "gold22k_8g": 95840,
+      "gold22k_10g": 119800,
+      "gold24k_1g": 13069,
+      "silver_1g": 180,
+      "silver_1kg": 0,
+      "change": -235,
+      "pctChange": -1.92,
+      "sma20": 12867,
+      "sma50": 13315,
+      "sma200": 13842
     }
   ]
 }

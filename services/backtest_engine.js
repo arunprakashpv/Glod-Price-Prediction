@@ -10,6 +10,25 @@ const path = require('path');
 const macroService = require('./macro');
 
 const HISTORY_FILE = path.join(__dirname, '..', 'data', 'mjdta_history_2006_2026.json');
+const TMP_HISTORY_FILE = path.join('/tmp', 'mjdta_history_2006_2026.json');
+
+function loadBacktestDataset() {
+  try {
+    if (fs.existsSync(TMP_HISTORY_FILE)) {
+      const raw = fs.readFileSync(TMP_HISTORY_FILE, 'utf8');
+      const ds = JSON.parse(raw);
+      if (ds && Array.isArray(ds.dailySeries) && ds.dailySeries.length > 0) {
+        return ds;
+      }
+    }
+  } catch (e) {}
+
+  if (fs.existsSync(HISTORY_FILE)) {
+    const raw = fs.readFileSync(HISTORY_FILE, 'utf8');
+    return JSON.parse(raw);
+  }
+  throw new Error('Historical dataset mjdta_history_2006_2026.json not found!');
+}
 
 // Calculate 14-period RSI
 function computeRsi(series, period = 14) {
@@ -459,12 +478,7 @@ function evaluateForwardWindow(series, idx, price, signal, windowDays = 7) {
 }
 
 function runBacktest() {
-  if (!fs.existsSync(HISTORY_FILE)) {
-    throw new Error('Historical dataset mjdta_history_2006_2026.json not found!');
-  }
-
-  const raw = fs.readFileSync(HISTORY_FILE, 'utf8');
-  const dataset = JSON.parse(raw);
+  const dataset = loadBacktestDataset();
   const series = dataset.dailySeries;
 
   const macroHistory = macroService.loadHistoricalMacro();
@@ -964,12 +978,21 @@ function invalidateCache() {
 function getBacktestResults() {
   let fileMtime = 0;
   try {
-    fileMtime = fs.statSync(HISTORY_FILE).mtimeMs;
+    if (fs.existsSync(TMP_HISTORY_FILE)) {
+      fileMtime = fs.statSync(TMP_HISTORY_FILE).mtimeMs;
+    } else if (fs.existsSync(HISTORY_FILE)) {
+      fileMtime = fs.statSync(HISTORY_FILE).mtimeMs;
+    }
   } catch (e) {}
 
   let macroMtime = 0;
   try {
-    macroMtime = fs.statSync(path.join(__dirname, '..', 'data', 'macro_history_2006_2026.json')).mtimeMs;
+    const tmpMacro = path.join('/tmp', 'macro_history_2006_2026.json');
+    if (fs.existsSync(tmpMacro)) {
+      macroMtime = fs.statSync(tmpMacro).mtimeMs;
+    } else {
+      macroMtime = fs.statSync(path.join(__dirname, '..', 'data', 'macro_history_2006_2026.json')).mtimeMs;
+    }
   } catch (e) {}
 
   const combinedMtime = fileMtime + macroMtime;

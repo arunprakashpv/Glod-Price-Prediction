@@ -916,8 +916,33 @@ async function handleRequest(req, res) {
 
   // API: Get Top 3 Indian Bullion Organisations
   if (pathname === '/api/organisations' && req.method === 'GET') {
-    const orgData = orgService.getOrganisationsData();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    let orgData = orgService.getOrganisationsData();
+
+    // On-demand refresh if data is older than 20 minutes, or if from a previous day
+    const nowMs = Date.now();
+    const isStale = !orgData.lastUpdated || (nowMs - new Date(orgData.lastUpdated).getTime() > 20 * 60 * 1000);
+    const isNewDay = orgData.lastUpdated && new Date(orgData.lastUpdated).toISOString().slice(0, 10) !== new Date().toISOString().slice(0, 10);
+
+    if (isStale || isNewDay || parsedUrl.query.fresh === '1') {
+      try {
+        const updated = await orgService.syncTop3Organisations();
+        if (updated) {
+          orgData = updated;
+          const active = updated?.organisations?.find(o => o.id === updated.activeBenchmarkId) || updated?.organisations?.[0];
+          if (active && active.rate22k_1g) {
+            currentBenchmark22kRate = active.rate22k_1g;
+            currentForecastCache = generateAndSaveForecast(currentBenchmark22kRate);
+          }
+        }
+      } catch (e) {
+        console.warn('[On-demand Org Sync Warning]:', e.message);
+      }
+    }
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    });
     res.end(JSON.stringify(orgData));
     return;
   }
@@ -926,6 +951,13 @@ async function handleRequest(req, res) {
   if (pathname === '/api/organisations/sync' && req.method === 'POST') {
     try {
       const updated = await orgService.syncTop3Organisations();
+      // Also sync history in parallel/settled so backtest and history are always current
+      try {
+        await historySync.syncMissedDates();
+        backtestService.invalidateCache();
+      } catch (hErr) {
+        console.warn('[Sync Missed History in Org Sync Warning]:', hErr.message);
+      }
       const active = updated?.organisations?.find(o => o.id === updated.activeBenchmarkId) || updated?.organisations?.[0];
       if (active && active.rate22k_1g) {
         currentBenchmark22kRate = active.rate22k_1g;
@@ -935,7 +967,7 @@ async function handleRequest(req, res) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
         success: true,
-        message: 'Live bullion association rates synced successfully',
+        message: 'Live bullion association rates & price history synced successfully',
         data: updated,
         currentBenchmark22kRate,
         india: updatedIndian
@@ -1000,7 +1032,18 @@ async function handleRequest(req, res) {
   // API: Get 20-Year Strategy Backtest Results
   if (pathname === '/api/backtest' && req.method === 'GET') {
     try {
-      const results = backtestService.getBacktestResults();
+      let results = backtestService.getBacktestResults();
+      const todayIso = new Date(Date.now() + 5.5 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      const lastDate = results?.summary?.endDate || results?.currentMarketSetup?.asOfDate;
+      if (lastDate && lastDate < todayIso) {
+        try {
+          const syncOut = await historySync.syncMissedDates();
+          if (syncOut?.updated) {
+            backtestService.invalidateCache();
+            results = backtestService.getBacktestResults();
+          }
+        } catch (sErr) {}
+      }
       res.writeHead(200, {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate'
@@ -1016,7 +1059,8 @@ async function handleRequest(req, res) {
   // API: Download 2006-2026 MJDTA Historical CSV
   if (pathname === '/api/history/download' && req.method === 'GET') {
     try {
-      const historyPath = path.join(__dirname, 'data', 'mjdta_history_2006_2026.json');
+      const tmpPath = path.join('/tmp', 'mjdta_history_2006_2026.json');
+      const historyPath = fs.existsSync(tmpPath) ? tmpPath : path.join(__dirname, 'data', 'mjdta_history_2006_2026.json');
       if (fs.existsSync(historyPath)) {
         const raw = fs.readFileSync(historyPath, 'utf8');
         const parsed = JSON.parse(raw);
@@ -1028,7 +1072,7 @@ async function handleRequest(req, res) {
         res.writeHead(200, {
           'Content-Type': 'text/csv',
           'Content-Disposition': 'attachment; filename="mjdta_gold_history_2006_2026.csv"',
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
         });
         res.end(csv);
         return;
