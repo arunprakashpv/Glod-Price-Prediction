@@ -1,20 +1,20 @@
 {
-  "lastSyncedAt": "2026-11-17T06:05:12.314Z",
-  "successCount": 4,
+  "lastSyncedAt": "2026-11-26T09:59:19.095Z",
+  "successCount": 1,
   "market": {
-    "lastUpdated": "2026-11-17T06:05:12.314Z",
+    "lastUpdated": "2026-11-26T09:59:19.095Z",
     "source": "Yahoo Finance Live Global Macro Feed",
     "gold": {
       "symbol": "GC=F",
       "name": "Gold Spot / US Dollar",
-      "price": 3882.9,
-      "change24h": 29.9,
-      "changePercent24h": 0.78,
-      "high24h": 3889.6,
-      "low24h": 3845.9,
-      "sma20": 4006.865,
+      "price": 3601.5,
+      "change24h": 65.7,
+      "changePercent24h": 1.86,
+      "high24h": 3634.7,
+      "low24h": 3578.8,
+      "sma20": 3849.885,
       "sma50": 4120.62,
-      "devSma20Pct": -3.09,
+      "devSma20Pct": -6.45,
       "weightScore": 9.5,
       "tier": "CORE_8_PLUS",
       "unit": "USD / oz",
@@ -81,9 +81,9 @@
       "changePercent24h": -0.64,
       "realYield": 2.78,
       "breakevenInflation": 2.34,
-      "sma20": 4.9902,
+      "sma20": 4.992,
       "sma50": 5.072,
-      "devSma20Pct": 2.62,
+      "devSma20Pct": 2.58,
       "weightScore": 8.5,
       "tier": "CORE_8_PLUS",
       "unit": "%",
@@ -104,7 +104,7 @@
       "unit": "Index Points",
       "correlation": 0.45,
       "safeHavenImpact": "Secondary safe-haven sentiment monitor (4.5/10 — excluded from >= 8/10 core predictive model)",
-      "signal": "BULLISH"
+      "signal": "CALM"
     }
   },
   "historical": [
